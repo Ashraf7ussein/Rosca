@@ -1,33 +1,33 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import Screen from "../components/Screen";
+import RoscaCard from "../components/RoscaCard";
 import AppText from "../components/AppText";
-import FooterButton from "../components/FooterButton";
 
 const HomeScreen = () => {
   return (
     <Screen>
-      <View style={styles.container}>
-        <View style={styles.content}>
-          <AppText>You don’t have any Rosca’s Yet</AppText>
-        </View>
-        <FooterButton>Create Rosca</FooterButton>
-      </View>
+      <AppText>Roscas</AppText>
+      <RoscaCard
+        name="Test"
+        badge="closed"
+        endingDate="1/1/2026"
+        startingDate="1/1/2025"
+        monthlyAmount="25 JD"
+        totalAmount="500 JD"
+      />
+      <RoscaCard
+        name="Test"
+        badge="closed"
+        endingDate="1/1/2026"
+        startingDate="1/1/2025"
+        monthlyAmount="25 JD"
+        totalAmount="500 JD"
+      />
     </Screen>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  content: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+const styles = StyleSheet.create({});
 
 export default HomeScreen;
