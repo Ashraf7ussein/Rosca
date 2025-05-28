@@ -8,7 +8,7 @@ import AppText from "../components/AppText";
 const FormScreen = () => {
   return (
     <Screen>
-      <View style={styles.container}>
+      <View style={styles.content}>
         <AppText>Create Rosca</AppText>
         <AppTextInput label="Rosca Name" placeholder="Ex: Neighborhood" />
         <AppTextInput label="Members Count" placeholder="5" />
@@ -22,7 +22,7 @@ const FormScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  content: {
     flex: 1,
   },
 });
