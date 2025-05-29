@@ -5,7 +5,8 @@ import HomeScreen from "./app/screens/HomeScreen";
 import RoscaDetailsScreen from "./app/screens/RoscaDetailsScreen";
 import MembersScreen from "./app/screens/MembersScreen";
 import ScanQrScreen from "./app/components/ScanQrScreen";
+import PaymentsScreen from "./app/screens/PaymentsScreen";
 
 export default function App() {
-  return <ScanQrScreen />;
+  return <PaymentsScreen />;
 }

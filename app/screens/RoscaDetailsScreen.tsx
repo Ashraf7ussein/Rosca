@@ -58,6 +58,10 @@ const RoscaDetailsScreen = () => {
         <TabContainer
           onPress={(tab) => setSelectedTab(tab)}
           selectedTab={selectedTab}
+          tabs={[
+            { label: "Accepted", value: "accepted" },
+            { label: "Waiting Approval", value: "waiting" },
+          ]}
         />
 
         <MembersList

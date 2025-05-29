@@ -3,38 +3,34 @@ import { View, StyleSheet, TouchableOpacity } from "react-native";
 import AppText from "./AppText";
 import colors from "../config/colors";
 
+interface TabItem {
+  label: string;
+  value: string;
+}
+
 interface Props {
   onPress: (tab: string) => void;
   selectedTab: string;
+  tabs: TabItem[];
 }
 
-const TabContainer = ({ onPress, selectedTab }: Props) => {
+const TabContainer = ({ onPress, selectedTab, tabs }: Props) => {
   return (
     <View style={styles.tabContainer}>
-      <TouchableOpacity onPress={() => onPress("accepted")}>
-        <AppText
-          style={{
-            fontSize: 18,
-            fontWeight: selectedTab === "accepted" ? "bold" : "normal",
-            color:
-              selectedTab === "accepted" ? colors.primary : colors.bodyText,
-          }}
-        >
-          Accepted
-        </AppText>
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={() => onPress("waiting")}>
-        <AppText
-          style={{
-            fontSize: 18,
-            fontWeight: selectedTab === "waiting" ? "bold" : "normal",
-            color: selectedTab === "waiting" ? colors.primary : colors.bodyText,
-          }}
-        >
-          Waiting Approval
-        </AppText>
-      </TouchableOpacity>
+      {tabs.map((tab) => (
+        <TouchableOpacity key={tab.value} onPress={() => onPress(tab.value)}>
+          <AppText
+            style={{
+              fontSize: 18,
+              fontWeight: selectedTab === tab.value ? "bold" : "normal",
+              color:
+                selectedTab === tab.value ? colors.primary : colors.bodyText,
+            }}
+          >
+            {tab.label}
+          </AppText>
+        </TouchableOpacity>
+      ))}
     </View>
   );
 };

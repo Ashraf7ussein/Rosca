@@ -16,8 +16,12 @@ const MembersScreen = () => {
       <TabContainer
         onPress={(tab) => setSelectedTab(tab)}
         selectedTab={selectedTab}
+        tabs={[
+          { label: "Accepted", value: "accepted" },
+          { label: "Waiting Approval", value: "waiting" },
+        ]}
       />
-      <MembersList selectedTab={selectedTab} />
+      <MembersList selectedTab={selectedTab} onSelectMember={() => {}} />
     </Screen>
   );
 };
