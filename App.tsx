@@ -6,7 +6,8 @@ import RoscaDetailsScreen from "./app/screens/RoscaDetailsScreen";
 import MembersScreen from "./app/screens/MembersScreen";
 import ScanQrScreen from "./app/components/ScanQrScreen";
 import PaymentsScreen from "./app/screens/PaymentsScreen";
+import PaymentConfirmationScreen from "./app/screens/PaymentlConfirmationScreen";
 
 export default function App() {
-  return <PaymentsScreen />;
+  return <PaymentConfirmationScreen />;
 }
