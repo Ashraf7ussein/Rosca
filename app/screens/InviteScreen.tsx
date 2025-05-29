@@ -5,19 +5,23 @@ import FooterButton from "../components/FooterButton";
 import colors from "../config/colors";
 import AppText from "../components/AppText";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 const InviteScreen = () => {
   return (
     <Screen>
       <View style={styles.content}>
-        <AppText>Invite you freinds!</AppText>
-        <Text style={styles.text}>
+        <View style={styles.headerContainer}>
+          <AppText>Invite you freinds!</AppText>
+          <FontAwesome name="share-alt" size={20} color={colors.medium} />
+        </View>
+        <AppText style={styles.text}>
           SHARE THE QR CODE WITH YOUR FRIENDS TO INVITE THEM TO THE ROSCA
-        </Text>
+        </AppText>
         <View style={styles.qrCode} />
-        <Text style={styles.text}>Invite Code</Text>
+        <AppText style={styles.text}>Invite Code</AppText>
         <View style={styles.codeContainer}>
-          <Text>1151515</Text>
+          <AppText style={styles.codeText}>1151515</AppText>
           <MaterialCommunityIcons
             name="content-copy"
             color={colors.medium}
@@ -67,6 +71,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+  },
+  headerContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 22,
+  },
+  codeText: {
+    fontSize: 14,
   },
 });
 

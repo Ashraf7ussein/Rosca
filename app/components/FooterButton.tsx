@@ -1,22 +1,27 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, TouchableHighlight } from "react-native";
 import colors from "../config/colors";
 
 interface Props {
   backgroundColor?: string;
   textColor?: string;
   children: React.ReactNode;
+  onPress: () => void;
 }
 
 const FooterButton = ({
   children,
   backgroundColor = colors.primary,
   textColor = colors.white,
+  onPress,
 }: Props) => {
   return (
-    <View style={[styles.container, { backgroundColor }]}>
+    <TouchableHighlight
+      style={[styles.container, { backgroundColor }]}
+      onPress={onPress}
+    >
       <Text style={[styles.text, { color: textColor }]}>{children}</Text>
-    </View>
+    </TouchableHighlight>
   );
 };
 
