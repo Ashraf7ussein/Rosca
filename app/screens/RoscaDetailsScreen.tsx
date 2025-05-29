@@ -17,6 +17,8 @@ import UserDetails2 from "../components/UserDetails2";
 import colors from "../config/colors";
 import OptionItem from "../components/OptionItem";
 import UsersBadge from "../components/UsersBadge";
+import TabContainer from "../components/TabContainer";
+import MembersList from "../components/MembersList";
 
 const RoscaDetailsScreen = () => {
   const [selectedTab, setSelectedTab] = useState("accepted");
@@ -53,65 +55,20 @@ const RoscaDetailsScreen = () => {
           </View>
         </View>
 
-        <View style={styles.tabContainer}>
-          <TouchableOpacity onPress={() => setSelectedTab("accepted")}>
-            <AppText
-              style={{
-                fontSize: 18,
-                fontWeight: selectedTab === "accepted" ? "bold" : "normal",
-                color:
-                  selectedTab === "accepted" ? colors.primary : colors.bodyText,
-              }}
-            >
-              Accepted
-            </AppText>
-          </TouchableOpacity>
+        <TabContainer
+          onPress={(tab) => setSelectedTab(tab)}
+          selectedTab={selectedTab}
+        />
 
-          <TouchableOpacity onPress={() => setSelectedTab("waiting")}>
-            <AppText
-              style={{
-                fontSize: 18,
-                fontWeight: selectedTab === "waiting" ? "bold" : "normal",
-                color:
-                  selectedTab === "waiting" ? colors.primary : colors.bodyText,
-              }}
-            >
-              Waiting Approval
-            </AppText>
-          </TouchableOpacity>
-        </View>
+        <MembersList
+          selectedTab={selectedTab}
+          onSelectMember={(member) => {
+            console.log(member);
+            setModalType("userDetails");
+            setModalVisibility(true);
+          }}
+        />
 
-        <ScrollView>
-          {selectedTab === "accepted" ? (
-            <>
-              <TouchableOpacity
-                onPress={() => {
-                  setModalType("userDetaisl");
-                  setModalVisibility(true);
-                }}
-              >
-                <UserDetails
-                  name="this is th ena"
-                  date="asdlashd"
-                  badgeLabel="unpaid"
-                  order="1"
-                />
-              </TouchableOpacity>
-              <UserDetails
-                name="email"
-                date="MAy"
-                badgeLabel="nextpay"
-                order="2"
-              />
-              <UserDetails name="name" date="oct" badgeLabel="paid" order="3" />
-            </>
-          ) : (
-            <>
-              <UserDetails2 name="this is th ena" />
-              <UserDetails2 name="email" />
-            </>
-          )}
-        </ScrollView>
         {modalVisible && modalType === "options" && (
           <AppModal onClose={() => setModalVisibility(false)}>
             <OptionItem />
@@ -119,7 +76,7 @@ const RoscaDetailsScreen = () => {
             <OptionItem />
           </AppModal>
         )}
-        {modalVisible && modalType === "userDetaisl" && (
+        {modalVisible && modalType === "userDetails" && (
           <AppModal onClose={() => setModalVisibility(false)}>
             <AppText style={styles.userName}>Name NAme</AppText>
             <View style={styles.userPaymentsCard}>

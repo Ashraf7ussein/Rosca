@@ -5,6 +5,7 @@ import Screen from "../components/Screen";
 import TabContainer from "../components/TabContainer";
 import UserDetails from "../components/UserDetails";
 import UserDetails2 from "../components/UserDetails2";
+import MembersList from "../components/MembersList";
 
 const MembersScreen = () => {
   const [selectedTab, setSelectedTab] = useState("accepted");
@@ -16,30 +17,7 @@ const MembersScreen = () => {
         onPress={(tab) => setSelectedTab(tab)}
         selectedTab={selectedTab}
       />
-      <ScrollView>
-        {selectedTab === "accepted" ? (
-          <>
-            <UserDetails
-              name="this is th ena"
-              date="asdlashd"
-              badgeLabel="unpaid"
-              order="1"
-            />
-            <UserDetails
-              name="email"
-              date="MAy"
-              badgeLabel="nextpay"
-              order="2"
-            />
-            <UserDetails name="name" date="oct" badgeLabel="paid" order="3" />
-          </>
-        ) : (
-          <>
-            <UserDetails2 name="this is th ena" />
-            <UserDetails2 name="email" />
-          </>
-        )}
-      </ScrollView>
+      <MembersList selectedTab={selectedTab} />
     </Screen>
   );
 };

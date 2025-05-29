@@ -1,35 +1,38 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import UsersBadge from "../components/UsersBadge";
 import colors from "../config/colors";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import AppText from "./AppText";
 import OrderCircle from "./OrderCircle";
 
-interface Props {
+interface Member {
   name: string;
   date: string;
   badgeLabel: string;
   order: string;
+  onPress: () => void;
 }
 
-const UserDetails = ({ name, date, badgeLabel, order }: Props) => {
+const UserDetails = ({ name, date, badgeLabel, order, onPress }: Member) => {
   return (
-    <View style={styles.container}>
-      <View style={styles.leftDetails}>
-        <FontAwesome6 name="bars" size={20} color={colors.medium} />
-        <View>
-          <OrderCircle order={order} />
-          <View style={styles.userImage} />
+    <TouchableOpacity onPress={onPress}>
+      <View style={styles.container}>
+        <View style={styles.leftDetails}>
+          <FontAwesome6 name="bars" size={20} color={colors.medium} />
+          <View>
+            <OrderCircle order={order} />
+            <View style={styles.userImage} />
+          </View>
+          <View>
+            <AppText style={styles.username}>{name}</AppText>
+            <AppText style={styles.date}>{date}</AppText>
+          </View>
         </View>
-        <View>
-          <AppText style={styles.username}>{name}</AppText>
-          <AppText style={styles.date}>{date}</AppText>
-        </View>
-      </View>
 
-      <UsersBadge label={badgeLabel} />
-    </View>
+        <UsersBadge label={badgeLabel} />
+      </View>
+    </TouchableOpacity>
   );
 };
 

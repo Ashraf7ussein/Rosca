@@ -30,11 +30,8 @@ const InviteScreen = () => {
         </View>
       </View>
       <View style={styles.bottonsContainer}>
-        <FooterButton>Done</FooterButton>
-        <FooterButton
-          backgroundColor={colors.secondary}
-          textColor={colors.black}
-        >
+        <FooterButton onPress={() => {}}>Done</FooterButton>
+        <FooterButton onPress={() => {}} backgroundColor={colors.secondary}>
           Share
         </FooterButton>
       </View>
