@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import AppModal from "../components/AppModal";
 import AppText from "../components/AppText";
 import CircularIcon from "../components/CircularIcon";
@@ -10,10 +16,12 @@ import UserDetails from "../components/UserDetails";
 import UserDetails2 from "../components/UserDetails2";
 import colors from "../config/colors";
 import OptionItem from "../components/OptionItem";
+import UsersBadge from "../components/UsersBadge";
 
 const RoscaDetailsScreen = () => {
   const [selectedTab, setSelectedTab] = useState("accepted");
   const [modalVisible, setModalVisibility] = useState(false);
+  const [modalType, setModalType] = useState("options");
 
   return (
     <Screen>
@@ -31,7 +39,12 @@ const RoscaDetailsScreen = () => {
         <View style={styles.container}>
           <AppText style={styles.text}>Members</AppText>
           <View style={styles.iconsContainer}>
-            <TouchableOpacity onPress={() => setModalVisibility(true)}>
+            <TouchableOpacity
+              onPress={() => {
+                setModalType("options");
+                setModalVisibility(true);
+              }}
+            >
               <CircularIcon size={20} name="dots-horizontal" />
             </TouchableOpacity>
             <TouchableOpacity>
@@ -71,12 +84,19 @@ const RoscaDetailsScreen = () => {
         <ScrollView>
           {selectedTab === "accepted" ? (
             <>
-              <UserDetails
-                name="this is th ena"
-                date="asdlashd"
-                badgeLabel="unpaid"
-                order="1"
-              />
+              <TouchableOpacity
+                onPress={() => {
+                  setModalType("userDetaisl");
+                  setModalVisibility(true);
+                }}
+              >
+                <UserDetails
+                  name="this is th ena"
+                  date="asdlashd"
+                  badgeLabel="unpaid"
+                  order="1"
+                />
+              </TouchableOpacity>
               <UserDetails
                 name="email"
                 date="MAy"
@@ -92,11 +112,46 @@ const RoscaDetailsScreen = () => {
             </>
           )}
         </ScrollView>
-        {modalVisible && (
+        {modalVisible && modalType === "options" && (
           <AppModal onClose={() => setModalVisibility(false)}>
             <OptionItem />
             <OptionItem />
             <OptionItem />
+          </AppModal>
+        )}
+        {modalVisible && modalType === "userDetaisl" && (
+          <AppModal onClose={() => setModalVisibility(false)}>
+            <AppText style={styles.userName}>Name NAme</AppText>
+            <View style={styles.userPaymentsCard}>
+              <AppText style={styles.paymentText}>Total Payments</AppText>
+              <AppText style={styles.price}>200.00 JOD</AppText>
+            </View>
+            <View style={styles.grid}>
+              <View style={styles.dateContainer}>
+                <AppText style={styles.date}>APR</AppText>
+                <UsersBadge label="nextpay" />
+              </View>
+              <View style={styles.dateContainer}>
+                <AppText style={styles.date}>APR</AppText>
+                <UsersBadge label="nextpay" />
+              </View>
+              <View style={styles.dateContainer}>
+                <AppText style={styles.date}>APR</AppText>
+                <UsersBadge label="nextpay" />
+              </View>
+              <View style={styles.dateContainer}>
+                <AppText style={styles.date}>APR</AppText>
+                <UsersBadge label="nextpay" />
+              </View>
+              <View style={styles.dateContainer}>
+                <AppText style={styles.date}>APR</AppText>
+                <UsersBadge label="nextpay" />
+              </View>
+              <View style={styles.dateContainer}>
+                <AppText style={styles.date}>APR</AppText>
+                <UsersBadge label="nextpay" />
+              </View>
+            </View>
           </AppModal>
         )}
       </View>
@@ -141,6 +196,48 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: colors.medium,
     paddingTop: 20,
+  },
+  userName: {
+    fontSize: 20,
+    marginBottom: 20,
+    fontWeight: "bold",
+    textTransform: "capitalize",
+  },
+  userPaymentsCard: {
+    padding: 15,
+    borderRadius: 15,
+    backgroundColor: "white",
+    shadowColor: colors.black,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 4, // For Android shadow
+    marginBottom: 25,
+  },
+  paymentText: {
+    fontSize: 18,
+    color: colors.dark,
+    marginBottom: 5,
+    textTransform: "uppercase",
+  },
+  price: {
+    color: colors.primary,
+    fontWeight: "bold",
+    fontSize: 30,
+  },
+  date: {
+    fontSize: 18,
+    color: colors.medium,
+    marginBottom: 8,
+  },
+  dateContainer: {
+    alignItems: "center",
+  },
+  grid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    gap: 12,
   },
 });
 
