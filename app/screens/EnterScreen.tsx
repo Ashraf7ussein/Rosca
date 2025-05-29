@@ -11,7 +11,7 @@ const EnterScreen = () => {
         <View style={styles.content}>
           <AppText>You don’t have any Rosca’s Yet</AppText>
         </View>
-        <FooterButton>Create Rosca</FooterButton>
+        <FooterButton onPress={() => {}}>Create Rosca</FooterButton>
       </View>
     </Screen>
   );

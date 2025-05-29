@@ -4,24 +4,19 @@ import colors from "../config/colors";
 
 interface Props {
   backgroundColor?: string;
-  disabled?: boolean;
+  textColor?: string;
   children: React.ReactNode;
   onPress: () => void;
 }
 
-const FooterButton = ({
+const SquareButton = ({
   children,
   backgroundColor = colors.primary,
-  disabled = false,
   onPress,
 }: Props) => {
   return (
     <TouchableHighlight
-      disabled={disabled}
-      style={[
-        styles.container,
-        { backgroundColor, opacity: disabled ? 0.5 : 1 },
-      ]}
+      style={[styles.container, { backgroundColor }]}
       onPress={onPress}
     >
       <Text
@@ -41,10 +36,10 @@ const FooterButton = ({
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
     alignItems: "center",
-    padding: 20,
-    borderRadius: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 25,
+    borderRadius: 7,
   },
   text: {
     textTransform: "capitalize",
@@ -53,4 +48,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FooterButton;
+export default SquareButton;
