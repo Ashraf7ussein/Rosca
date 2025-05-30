@@ -12,5 +12,5 @@ import OtpScreen from "./app/screens/OtpScreen";
 import BillScreen from "./app/screens/BillScreen";
 
 export default function App() {
-  return <BillScreen />;
+  return <EnterScreen />;
 }

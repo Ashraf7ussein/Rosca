@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text, TouchableHighlight } from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import colors from "../config/colors";
 
 interface Props {
@@ -16,7 +16,7 @@ const FooterButton = ({
   onPress,
 }: Props) => {
   return (
-    <TouchableHighlight
+    <TouchableOpacity
       disabled={disabled}
       style={[
         styles.container,
@@ -35,7 +35,7 @@ const FooterButton = ({
       >
         {children}
       </Text>
-    </TouchableHighlight>
+    </TouchableOpacity>
   );
 };
 
