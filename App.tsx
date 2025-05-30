@@ -7,7 +7,8 @@ import MembersScreen from "./app/screens/MembersScreen";
 import ScanQrScreen from "./app/components/ScanQrScreen";
 import PaymentsScreen from "./app/screens/PaymentsScreen";
 import PaymentConfirmationScreen from "./app/screens/PaymentlConfirmationScreen";
+import PaymentScreen from "./app/screens/PaymentScreen";
 
 export default function App() {
-  return <PaymentConfirmationScreen />;
+  return <PaymentScreen />;
 }
