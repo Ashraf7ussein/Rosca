@@ -17,6 +17,7 @@ const PinInput = ({ control, name, index, inputRefs }: Props) => {
       control={control}
       render={({ field: { value, onChange } }) => (
         <TextInput
+          textAlign="center"
           ref={inputRefs[index]}
           style={styles.input}
           keyboardType="number-pad"
