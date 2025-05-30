@@ -4,6 +4,8 @@ import AppText from "../components/AppText";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import colors from "../config/colors";
 import { View, StyleSheet } from "react-native";
+import FooterButton from "../components/FooterButton";
+import PriceTag from "../components/PriceTag";
 
 const BillScreen = () => {
   return (
@@ -14,7 +16,7 @@ const BillScreen = () => {
       </View>
       <View style={styles.bill}>
         <View style={styles.billTop}>
-          <AppText style={styles.price}>100.00 jod</AppText>
+          <PriceTag amount={120.25} />
           <AppText style={styles.groupName}>Family Group</AppText>
         </View>
 
@@ -42,6 +44,7 @@ const BillScreen = () => {
           <View key={i} style={styles.triangle} />
         ))}
       </View>
+      <FooterButton onPress={() => {}}>Home</FooterButton>
     </Screen>
   );
 };
@@ -59,20 +62,18 @@ const styles = StyleSheet.create({
     padding: 20,
     borderTopColor: colors.dark,
     borderTopWidth: 2,
+    flex: 1,
   },
   billTop: {
     alignItems: "center",
     justifyContent: "center",
+    borderBottomWidth: 1,
+    paddingBottom: 25,
   },
   billBottom: {
     alignItems: "flex-start",
-    marginTop: 55,
+    marginTop: 25,
     gap: 20,
-  },
-  price: {
-    fontSize: 40,
-    fontWeight: "bold",
-    color: colors.primary,
   },
   groupName: {
     fontSize: 16,
