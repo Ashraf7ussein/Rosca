@@ -4,25 +4,28 @@ import Screen from "../components/Screen";
 import AppText from "../components/AppText";
 import FooterButton from "../components/FooterButton";
 import colors from "../config/colors";
+import { useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../../types";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-const EnterScreen = ({ navigation }) => {
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
+const EnterScreen = () => {
+  const navigation = useNavigation<NavigationProp>();
+
   return (
     <Screen>
       <View style={styles.content}>
         <AppText>You don’t have any Rosca’s Yet</AppText>
       </View>
       <View style={styles.buttonsContainer}>
-        <FooterButton
-          onPress={() => {
-            navigation.navigate("Create Rosca");
-          }}
-        >
+        <FooterButton onPress={() => navigation.navigate("Create")}>
           Create Rosca
         </FooterButton>
         <FooterButton
           backgroundColor={colors.secondary}
           onPress={() => {
-            navigation.navigate("Join Rosca");
+            navigation.navigate("Join");
           }}
         >
           Join Rosca

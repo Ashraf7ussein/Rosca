@@ -11,16 +11,18 @@ import PaymentScreen from "./app/screens/PaymentScreen";
 import OtpScreen from "./app/screens/OtpScreen";
 import BillScreen from "./app/screens/BillScreen";
 
-import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import LoginScreen from "./app/screens/LoginScreen";
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 const StackNavigator = () => (
-  <Stack.Navigator initialRouteName="Enter Screen">
-    <Stack.Screen name="Enter Screen" component={EnterScreen} />
-    <Stack.Screen name="Create Rosca" component={FormScreen} />
-    <Stack.Screen name="Join Rosca" component={ScanQrScreen} />
+  <Stack.Navigator initialRouteName="Login">
+    <Stack.Screen name="Login" component={LoginScreen} />
+    <Stack.Screen name="Enter" component={EnterScreen} />
+    <Stack.Screen name="Create" component={FormScreen} />
+    <Stack.Screen name="Join" component={ScanQrScreen} />
   </Stack.Navigator>
 );
 
