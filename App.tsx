@@ -11,6 +11,23 @@ import PaymentScreen from "./app/screens/PaymentScreen";
 import OtpScreen from "./app/screens/OtpScreen";
 import BillScreen from "./app/screens/BillScreen";
 
+import { createStackNavigator } from "@react-navigation/stack";
+import { NavigationContainer } from "@react-navigation/native";
+
+const Stack = createStackNavigator();
+
+const StackNavigator = () => (
+  <Stack.Navigator initialRouteName="Enter Screen">
+    <Stack.Screen name="Enter Screen" component={EnterScreen} />
+    <Stack.Screen name="Create Rosca" component={FormScreen} />
+    <Stack.Screen name="Join Rosca" component={ScanQrScreen} />
+  </Stack.Navigator>
+);
+
 export default function App() {
-  return <EnterScreen />;
+  return (
+    <NavigationContainer>
+      <StackNavigator />
+    </NavigationContainer>
+  );
 }

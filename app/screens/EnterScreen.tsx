@@ -5,15 +5,26 @@ import AppText from "../components/AppText";
 import FooterButton from "../components/FooterButton";
 import colors from "../config/colors";
 
-const EnterScreen = () => {
+const EnterScreen = ({ navigation }) => {
   return (
     <Screen>
       <View style={styles.content}>
         <AppText>You don’t have any Rosca’s Yet</AppText>
       </View>
-      <View style={styles.buttonContainer}>
-        <FooterButton onPress={() => {}}>Create Rosca</FooterButton>
-        <FooterButton backgroundColor={colors.secondary} onPress={() => {}}>
+      <View style={styles.buttonsContainer}>
+        <FooterButton
+          onPress={() => {
+            navigation.navigate("Create Rosca");
+          }}
+        >
+          Create Rosca
+        </FooterButton>
+        <FooterButton
+          backgroundColor={colors.secondary}
+          onPress={() => {
+            navigation.navigate("Join Rosca");
+          }}
+        >
           Join Rosca
         </FooterButton>
       </View>
@@ -32,7 +43,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  buttonContainer: {
+  buttonsContainer: {
     gap: 10,
   },
 });
