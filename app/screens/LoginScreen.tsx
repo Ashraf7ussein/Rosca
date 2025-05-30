@@ -15,10 +15,17 @@ interface FormInputs {
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
+const onSubmit = (data: FormInputs) => {
+  const { email, password } = data;
+
+  console.log(data);
+};
+
 const LoginScreen = () => {
   const navigation = useNavigation<NavigationProp>();
   const {
     control,
+    handleSubmit,
     formState: { errors },
   } = useForm<FormInputs>();
 
@@ -49,7 +56,7 @@ const LoginScreen = () => {
         />
       </View>
       <View style={styles.buttonsContainer}>
-        <FooterButton onPress={() => {}}>Login</FooterButton>
+        <FooterButton onPress={handleSubmit(onSubmit)}>Login</FooterButton>
       </View>
     </Screen>
   );
