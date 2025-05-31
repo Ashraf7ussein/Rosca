@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     height: 20,
     borderRadius: 10,
     backgroundColor: colors.black,
-    top: 15,
+    top: 5,
     right: -30,
     zIndex: 10,
     borderWidth: 1,

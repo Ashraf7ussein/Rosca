@@ -1,18 +1,18 @@
+import Feather from "@expo/vector-icons/Feather";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import React, { useState } from "react";
+import { Control, Controller, FieldError } from "react-hook-form";
 import {
-  View,
+  Modal,
+  Platform,
+  Pressable,
   StyleSheet,
   TextInput,
-  Pressable,
-  Platform,
-  Button,
-  Modal,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import { Controller, FieldError, Control } from "react-hook-form";
-import AppText from "./AppText";
 import colors from "../config/colors";
-import Feather from "@expo/vector-icons/Feather";
+import AppText from "./AppText";
 
 interface Props {
   name: string;
@@ -35,119 +35,135 @@ const AppFormInput = ({
 }: Props) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
-
-  const renderDateInput = (value: any, onChange: (date: Date) => void) => {
-    const dateValue = value ? new Date(value) : new Date();
-
-    return (
-      <>
-        <Pressable onPress={() => setShowDatePicker(true)}>
-          <View
-            style={[
-              styles.input,
-              styles.dateInput,
-              error && { borderColor: "red" },
-            ]}
-          >
-            <AppText style={value ? styles.dateText : styles.placeholder}>
-              {value ? dateValue.toLocaleDateString() : placeholder}
-            </AppText>
-          </View>
-        </Pressable>
-        {showDatePicker && (
-          <Modal animationType="slide" transparent={true}>
-            <View style={styles.modalContainer}>
-              <View style={styles.modalContent}>
-                <DateTimePicker
-                  value={dateValue}
-                  mode="date"
-                  display={Platform.OS === "ios" ? "spinner" : "default"}
-                  onChange={(_, selectedDate) => {
-                    if (Platform.OS !== "ios") setShowDatePicker(false);
-                    if (selectedDate) onChange(selectedDate);
-                  }}
-                />
-                {Platform.OS === "ios" && (
-                  <Button
-                    title="Confirm"
-                    onPress={() => setShowDatePicker(false)}
-                  />
-                )}
-              </View>
-            </View>
-          </Modal>
-        )}
-      </>
-    );
-  };
-
-  const renderPasswordInput = (
-    value: any,
-    onChange: (text: string) => void
-  ) => (
-    <View
-      style={[
-        styles.input,
-        styles.passwordContainer,
-        error && { borderColor: "red" },
-      ]}
-    >
-      <TextInput
-        value={String(value)}
-        onChangeText={onChange}
-        placeholder={placeholder}
-        secureTextEntry={!passwordVisible}
-        autoCapitalize="none"
-        autoCorrect={false}
-        textContentType="password"
-        style={styles.passwordInput}
-      />
-      <Pressable onPress={() => setPasswordVisible(!passwordVisible)}>
-        <Feather
-          name={passwordVisible ? "eye" : "eye-off"}
-          size={24}
-          color={colors.medium}
-        />
-      </Pressable>
-    </View>
-  );
-
-  const renderTextInput = (value: any, onChange: (text: string) => void) => (
-    <TextInput
-      value={String(value)}
-      onChangeText={onChange}
-      placeholder={placeholder}
-      style={[styles.input, error && { borderColor: "red" }]}
-      keyboardType={
-        type === "number"
-          ? "numeric"
-          : type === "email"
-          ? "email-address"
-          : "default"
-      }
-      autoCapitalize={type === "email" ? "none" : "sentences"}
-      autoCorrect={type === "email" ? false : true}
-      textContentType={type === "email" ? "emailAddress" : "none"}
-    />
-  );
+  const [tempDate, setTempDate] = useState<Date>(new Date());
 
   return (
     <View style={styles.container}>
-      <AppText style={styles.label}>{label}</AppText>
+      {label && <AppText style={styles.label}>{label}</AppText>}
       <Controller
         name={name}
         control={control}
         rules={rules}
         defaultValue=""
         render={({ field: { value, onChange } }) => {
-          switch (type) {
-            case "date":
-              return renderDateInput(value, onChange);
-            case "password":
-              return renderPasswordInput(value, onChange);
-            default:
-              return renderTextInput(value, onChange);
+          if (type === "date") {
+            const dateValue = value ? new Date(value) : new Date();
+
+            return (
+              <>
+                <Pressable
+                  onPress={() => {
+                    setTempDate(dateValue);
+                    setShowDatePicker(true);
+                  }}
+                >
+                  <View
+                    style={[
+                      styles.input,
+                      error ? { borderColor: "red" } : null,
+                    ]}
+                  >
+                    <AppText
+                      style={value ? styles.dateText : styles.placeholder}
+                    >
+                      {value
+                        ? new Date(value).toLocaleDateString()
+                        : placeholder}
+                    </AppText>
+                  </View>
+                </Pressable>
+
+                {showDatePicker && (
+                  <Modal
+                    transparent={true}
+                    visible={showDatePicker}
+                    animationType="slide"
+                    onRequestClose={() => setShowDatePicker(false)}
+                  >
+                    <View style={styles.modalContainer}>
+                      <View style={styles.modalContent}>
+                        <DateTimePicker
+                          value={tempDate}
+                          mode="date"
+                          display={
+                            Platform.OS === "ios" ? "spinner" : "default"
+                          }
+                          onChange={(event, selectedDate) => {
+                            if (Platform.OS !== "ios") {
+                              if (selectedDate) {
+                                setTempDate(selectedDate);
+                              }
+                            } else if (selectedDate) {
+                              setTempDate(selectedDate);
+                            }
+                          }}
+                          themeVariant="light"
+                          textColor="black"
+                        />
+                        <View style={styles.buttonRow}>
+                          <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => {
+                              onChange(tempDate.toISOString());
+                              setShowDatePicker(false);
+                            }}
+                          >
+                            <AppText style={styles.confirm}>Confirm</AppText>
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => setShowDatePicker(false)}
+                          >
+                            <AppText style={styles.cancel}>Cancel</AppText>
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                    </View>
+                  </Modal>
+                )}
+              </>
+            );
           }
+
+          if (type === "password") {
+            return (
+              <View
+                style={[
+                  styles.input,
+                  styles.passwordContainer,
+                  error && { borderColor: "red" },
+                ]}
+              >
+                <TextInput
+                  value={String(value)}
+                  onChangeText={onChange}
+                  placeholder={placeholder}
+                  secureTextEntry={!passwordVisible}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  textContentType="password"
+                  style={styles.passwordInput}
+                />
+                <Pressable onPress={() => setPasswordVisible(!passwordVisible)}>
+                  <Feather
+                    name={passwordVisible ? "eye" : "eye-off"}
+                    size={24}
+                    color={colors.medium}
+                  />
+                </Pressable>
+              </View>
+            );
+          }
+
+          return (
+            <TextInput
+              value={String(value)}
+              onChangeText={onChange}
+              style={[styles.input, error ? { borderColor: "red" } : null]}
+              placeholder={placeholder}
+              keyboardType={type === "number" ? "numeric" : "default"}
+            />
+          );
         }}
       />
       {error && <AppText style={styles.errorMessage}>{error.message}</AppText>}
@@ -173,9 +189,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     outlineWidth: 0,
   },
-  dateInput: {
-    justifyContent: "center",
-  },
   errorMessage: {
     color: "red",
     fontSize: 16,
@@ -187,25 +200,45 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.5)",
   },
   modalContent: {
-    backgroundColor: "white",
+    backgroundColor: colors.white,
     padding: 20,
     margin: 20,
     borderRadius: 10,
+    alignItems: "center",
   },
   dateText: {
     fontSize: 16,
+    color: colors.dark,
   },
   placeholder: {
     fontSize: 16,
     color: colors.medium,
   },
+  passwordInput: {
+    flex: 1,
+    outlineWidth: 0,
+  },
   passwordContainer: {
     flexDirection: "row",
     alignItems: "center",
   },
-  passwordInput: {
+  confirm: {
+    fontSize: 16,
+    color: colors.primary,
+  },
+  cancel: {
+    fontSize: 16,
+    color: colors.danger || "red",
+  },
+  buttonRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 20,
+    width: "100%",
+  },
+  button: {
     flex: 1,
-    outlineWidth: 0,
+    alignItems: "center",
   },
 });
 

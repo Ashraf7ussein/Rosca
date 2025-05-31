@@ -6,17 +6,20 @@ import colors from "../config/colors";
 interface PriceTagProps {
   amount: number | string;
   currency?: string;
+  size?: number;
 }
 
-const PriceTag = ({ amount, currency = "jod" }: PriceTagProps) => {
+const PriceTag = ({ amount, size = 10, currency = "jod" }: PriceTagProps) => {
   const [intPart, decimalPart] = parseFloat(amount.toString())
     .toFixed(2)
     .split(".");
 
   return (
     <View style={styles.container}>
-      <AppText style={styles.intPart}>{intPart}</AppText>
-      <AppText style={styles.priceDecimal}>.{decimalPart}</AppText>
+      <AppText style={[styles.intPart, { fontSize: size }]}>{intPart}</AppText>
+      <AppText style={[styles.priceDecimal, { fontSize: size / 2 }]}>
+        .{decimalPart}
+      </AppText>
       <AppText style={styles.currency}>{currency}</AppText>
     </View>
   );
@@ -28,13 +31,11 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
   },
   intPart: {
-    fontSize: 55,
     fontWeight: "bold",
     color: colors.primary,
     top: 13,
   },
   priceDecimal: {
-    fontSize: 25,
     fontWeight: "bold",
     color: colors.primary,
   },
@@ -43,7 +44,6 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
     color: colors.dark,
     marginLeft: 4,
-    marginBottom: 5,
   },
 });
 

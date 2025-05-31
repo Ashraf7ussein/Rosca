@@ -13,6 +13,9 @@ import FooterButton from "../components/FooterButton";
 import Screen from "../components/Screen";
 import apiClient from "../services/apiClient";
 import { useAuth } from "../services/authContext";
+import { useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../../types";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 interface FormInputs {
   name: string;
@@ -31,6 +34,9 @@ const FormScreen = () => {
     formState: { errors },
   } = useForm<FormInputs>();
 
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
   const onSubmit = (data: FormInputs) => {
     if (!user) return;
     const userData = {
@@ -42,7 +48,7 @@ const FormScreen = () => {
     const newData = { ...data, userData };
     apiClient
       .post("/api/roscas/create", newData)
-      .then((res) => console.log("poseted", res))
+      .then((res) => console.log("true"))
       .catch((err) => console.log(err));
   };
 

@@ -22,12 +22,12 @@ const ScanQrScreen = () => {
 
   return (
     <Screen>
+      <View style={styles.headerContainer}>
+        <AppText>Scan QR Code</AppText>
+        <FontAwesome name="camera" size={20} color={colors.medium} />
+      </View>
+      <AppText style={styles.text}>Scan the QR Code to Join</AppText>
       <View style={styles.content}>
-        <View style={styles.headerContainer}>
-          <AppText>Scan QR Code</AppText>
-          <FontAwesome name="camera" size={20} color={colors.medium} />
-        </View>
-        <AppText style={styles.text}>Scan the QR Code to Join</AppText>
         <View style={styles.qrCode} />
         <View style={styles.textContainer}>
           <AppText>Or</AppText>
@@ -55,9 +55,6 @@ const styles = StyleSheet.create({
   bottonsContainer: {
     gap: 10,
   },
-  content: {
-    flex: 1,
-  },
   text: {
     color: colors.medium,
     fontSize: 14,
@@ -69,7 +66,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: colors.black,
     alignSelf: "center",
-    marginTop: 45,
     marginBottom: 25,
   },
   codeContainer: {
@@ -96,6 +92,11 @@ const styles = StyleSheet.create({
   inputsContainer: {
     flexDirection: "row",
     gap: 8,
+  },
+  content: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 

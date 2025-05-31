@@ -1,67 +1,32 @@
 import { useState } from "react";
-import {
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
-} from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import AppModal from "../components/AppModal";
 import AppText from "../components/AppText";
 import CircularIcon from "../components/CircularIcon";
 import FooterButton from "../components/FooterButton";
+import MembersList from "../components/MembersList";
+import OptionItem from "../components/OptionItem";
 import RoscaCard from "../components/RoscaCard";
 import Screen from "../components/Screen";
-import UserDetails from "../components/UserDetails";
-import UserDetails2 from "../components/UserDetails2";
-import colors from "../config/colors";
-import OptionItem from "../components/OptionItem";
-import UsersBadge from "../components/UsersBadge";
 import TabContainer from "../components/TabContainer";
-import MembersList from "../components/MembersList";
-
-interface Member {
-  name: string;
-  isAdmin: boolean;
-  memberPaymentStatus: string;
-  totalPayments: number;
-  memberOrder: number;
-  memberStatus: string;
-  currentMonthPaymentStatus: string;
-  _id: string;
-}
-
-interface Rosca {
-  name: string;
-  badgeLabel: string;
-  endingDate: string;
-  startingDate: string;
-  monthlyAmount: string;
-  totalAmount: string;
-  _id: string;
-  membersArray: Member[];
-}
+import UsersBadge from "../components/UsersBadge";
+import colors from "../config/colors";
+import PriceTag from "../components/PriceTag";
+import Payment from "../../types";
+import Member from "../../types";
 
 const RoscaDetailsScreen = ({ route }) => {
   const [selectedTab, setSelectedTab] = useState("accepted");
   const [modalVisible, setModalVisibility] = useState(false);
   const [modalType, setModalType] = useState("options");
+  const [selectedMember, setSelectedMember] = useState<Member | null>(null);
 
   const { rosca } = route.params;
 
   return (
     <Screen>
       <View style={{ flex: 1 }}>
-        <RoscaCard
-          name={rosca.name}
-          badgeLabel={rosca.badgeLabel}
-          endingDate={rosca.endingDate}
-          startingDate={rosca.startingDate}
-          monthlyAmount={rosca.monthlyAmount}
-          totalAmount={rosca.totalAmount}
-          membersArray={rosca.membersArray}
-          showEditButton
-        />
+        <RoscaCard rosca={rosca} showEditButton />
 
         <View style={styles.container}>
           <AppText style={styles.text}>Members</AppText>
@@ -93,8 +58,8 @@ const RoscaDetailsScreen = ({ route }) => {
           membersArray={rosca.membersArray}
           selectedTab={selectedTab}
           onSelectMember={(member) => {
-            console.log(member);
             setModalType("userDetails");
+            setSelectedMember(member);
             setModalVisibility(true);
           }}
         />
@@ -106,38 +71,27 @@ const RoscaDetailsScreen = ({ route }) => {
             <OptionItem />
           </AppModal>
         )}
-        {modalVisible && modalType === "userDetails" && (
+
+        {modalVisible && modalType === "userDetails" && selectedMember && (
           <AppModal onClose={() => setModalVisibility(false)}>
-            <AppText style={styles.userName}>Name NAme</AppText>
+            <AppText style={styles.userName}>{selectedMember.name}</AppText>
             <View style={styles.userPaymentsCard}>
               <AppText style={styles.paymentText}>Total Payments</AppText>
-              <AppText style={styles.price}>200.00 JOD</AppText>
+              <PriceTag amount={selectedMember.totalPayments} size={40} />
             </View>
             <View style={styles.grid}>
-              <View style={styles.dateContainer}>
-                <AppText style={styles.date}>APR</AppText>
-                <UsersBadge label="nextpay" />
-              </View>
-              <View style={styles.dateContainer}>
-                <AppText style={styles.date}>APR</AppText>
-                <UsersBadge label="nextpay" />
-              </View>
-              <View style={styles.dateContainer}>
-                <AppText style={styles.date}>APR</AppText>
-                <UsersBadge label="nextpay" />
-              </View>
-              <View style={styles.dateContainer}>
-                <AppText style={styles.date}>APR</AppText>
-                <UsersBadge label="nextpay" />
-              </View>
-              <View style={styles.dateContainer}>
-                <AppText style={styles.date}>APR</AppText>
-                <UsersBadge label="nextpay" />
-              </View>
-              <View style={styles.dateContainer}>
-                <AppText style={styles.date}>APR</AppText>
-                <UsersBadge label="nextpay" />
-              </View>
+              {selectedMember.payments.map(
+                (payment: Payment, index: number) => (
+                  <View style={styles.dateContainer} key={index}>
+                    <AppText style={styles.date}>
+                      {new Date(payment.month).toLocaleDateString("en-US", {
+                        month: "long",
+                      })}
+                    </AppText>
+                    <UsersBadge label={payment.paymentStatus} />
+                  </View>
+                )
+              )}
             </View>
           </AppModal>
         )}
@@ -204,13 +158,7 @@ const styles = StyleSheet.create({
   paymentText: {
     fontSize: 18,
     color: colors.dark,
-    marginBottom: 5,
     textTransform: "uppercase",
-  },
-  price: {
-    color: colors.primary,
-    fontWeight: "bold",
-    fontSize: 30,
   },
   date: {
     fontSize: 18,

@@ -3,84 +3,69 @@ import { View, StyleSheet, Text } from "react-native";
 import colors from "../config/colors";
 import CardBadge from "./CardBadge";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-
-interface Member {
-  name: string;
-  isAdmin: boolean;
-  memberPaymentStatus: string;
-  totalPayments: number;
-  memberOrder: string;
-  memberStatus: string;
-  _id: string;
-  assignedDate: string;
-}
+import Rosca from "../../types";
+import AppText from "./AppText";
 
 interface Props {
-  name: string;
-  badgeLabel: string;
-  monthlyAmount: string;
-  totalAmount: string;
-  startingDate: string;
-  endingDate: string;
   showEditButton?: boolean;
-  membersArray: Member[];
+  rosca: Rosca;
 }
 
-const RoscaCard = ({
-  name,
-  badgeLabel,
-  monthlyAmount,
-  totalAmount,
-  startingDate,
-  endingDate,
-  showEditButton = false,
-}: Props) => {
+const RoscaCard = ({ rosca, showEditButton = false }: Props) => {
   return (
     <View style={styles.card}>
       <View style={styles.cardHeader}>
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-          <Text style={styles.name}>{name}</Text>
+        <View style={styles.headerLeft}>
+          <Text style={styles.name}>{rosca.name}</Text>
           {showEditButton && (
             <MaterialCommunityIcons name="pencil" size={20} color="black" />
           )}
         </View>
 
-        <CardBadge badgeLabel={badgeLabel} />
+        <CardBadge badgeLabel={rosca.badgeLabel} />
       </View>
+
       <View style={styles.cardBody}>
         <View style={styles.column}>
           <Text style={[styles.cardLeft, styles.label]}>Monthly Amount</Text>
-          <Text style={[styles.cardLeft, styles.value]}>{monthlyAmount}</Text>
+          <Text style={[styles.cardLeft, styles.value]}>
+            {rosca.monthlyAmount}
+          </Text>
+
           <Text style={[styles.cardLeft, styles.label]}>Total Amount</Text>
-          <Text style={styles.cardLeft}>{totalAmount}</Text>
+          <Text style={styles.cardLeft}>{rosca.totalAmount}</Text>
         </View>
+
         <View style={styles.column}>
           <Text style={[styles.cardRight, styles.label]}>Starting Date</Text>
           <Text style={[styles.cardRight, styles.value]}>
-            {" "}
-            {new Date(startingDate).toLocaleDateString()}
+            {new Date(rosca.startingDate).toLocaleDateString()}
           </Text>
+
           <Text style={[styles.cardRight, styles.label]}>Ending Date</Text>
           <Text style={styles.cardRight}>
-            {" "}
-            {new Date(endingDate).toLocaleDateString()}
+            {new Date(rosca.endingDate).toLocaleDateString()}
           </Text>
         </View>
       </View>
+
       <View style={styles.cardFooter}>
-        <View style={styles.adminContainer}>
-          <View
-            style={[
-              styles.user,
-              {
-                backgroundColor: colors.pending,
-                borderWidth: 2,
-                borderColor: colors.primary,
-              },
-            ]}
-          ></View>
-          <Text style={styles.adminText}>Admin</Text>
-        </View>
+        {rosca.membersArray.map((member) => {
+          const initials = member.name
+            .split(" ")
+            .map((n) => n[0])
+            .join("")
+            .toUpperCase();
+
+          return (
+            <View
+              key={member._id}
+              style={[styles.user, member.isAdmin && styles.adminUser]}
+            >
+              <AppText style={styles.userLogo}>{initials}</AppText>
+            </View>
+          );
+        })}
       </View>
     </View>
   );
@@ -93,18 +78,26 @@ const styles = StyleSheet.create({
     padding: 20,
     marginBottom: 20,
   },
-  name: {
-    fontSize: 16,
-    color: colors.black,
-  },
   cardHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 10,
   },
+  headerLeft: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+  },
+  name: {
+    fontSize: 16,
+    color: colors.black,
+  },
   cardBody: {
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+  column: {
+    flex: 1,
   },
   cardLeft: {
     textAlign: "left",
@@ -123,27 +116,30 @@ const styles = StyleSheet.create({
   value: {
     marginBottom: 10,
   },
-  column: {
-    flex: 1,
-  },
   cardFooter: {
     marginTop: 12,
     flexDirection: "row",
   },
   user: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     marginLeft: -8,
     borderWidth: 2,
     borderColor: colors.white,
-  },
-  adminContainer: {
+    backgroundColor: colors.medium,
     alignItems: "center",
-    gap: 5,
+    justifyContent: "center",
   },
-  adminText: {
-    color: colors.primary,
+  userLogo: {
+    fontSize: 14,
+    color: colors.white,
+    fontWeight: "bold",
+  },
+  adminUser: {
+    backgroundColor: colors.primary,
+    borderColor: colors.secondary,
+    borderWidth: 2,
   },
 });
 

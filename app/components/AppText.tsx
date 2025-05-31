@@ -1,10 +1,10 @@
 import React from "react";
-import { Text, StyleSheet, TextStyle, Platform } from "react-native";
+import { Text, StyleSheet, TextStyle, Platform, StyleProp } from "react-native";
 import colors from "../config/colors";
 
 interface Props {
   children: React.ReactNode;
-  style?: TextStyle;
+  style?: StyleProp<TextStyle>;
 }
 
 const AppText = ({ children, style }: Props) => {

@@ -1,28 +1,16 @@
-import React from "react";
-import {
-  StyleSheet,
-  ScrollView,
-  TouchableHighlight,
-  TouchableOpacity,
-} from "react-native";
-import Screen from "../components/Screen";
-import RoscaCard from "../components/RoscaCard";
-import AppText from "../components/AppText";
 import { useNavigation } from "@react-navigation/core";
-
-interface Rosca {
-  name: string;
-  badgeLabel: string;
-  endingDate: string;
-  startingDate: string;
-  monthlyAmount: string;
-  totalAmount: string;
-  _id: string;
-}
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import React from "react";
+import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import Rosca, { RootStackParamList } from "../../types";
+import AppText from "../components/AppText";
+import RoscaCard from "../components/RoscaCard";
+import Screen from "../components/Screen";
 
 const HomeScreen = ({ route }) => {
   const { userRoscas } = route.params;
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   return (
     <Screen>
@@ -36,14 +24,7 @@ const HomeScreen = ({ route }) => {
                 navigation.navigate("RoscaDetailsScreen", { rosca })
               }
             >
-              <RoscaCard
-                name={rosca.name}
-                badgeLabel={rosca.badgeLabel}
-                endingDate={rosca.endingDate}
-                startingDate={rosca.startingDate}
-                monthlyAmount={rosca.monthlyAmount}
-                totalAmount={rosca.totalAmount}
-              />
+              <RoscaCard rosca={rosca} />
             </TouchableOpacity>
           ))}
       </ScrollView>
