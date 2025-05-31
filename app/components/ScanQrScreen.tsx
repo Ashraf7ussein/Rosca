@@ -7,6 +7,7 @@ import AppText from "../components/AppText";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import PinInput from "./PinInput";
 import { useForm } from "react-hook-form";
+import { useAuth } from "../services/authContext";
 
 const pins = ["pin1", "pin2", "pin3", "pin4", "pin5", "pin6"];
 const ScanQrScreen = () => {
@@ -16,6 +17,8 @@ const ScanQrScreen = () => {
   const onSubmit = (data: any) => {
     const code = Object.values(data).join("");
   };
+
+  const { user } = useAuth();
 
   return (
     <Screen>

@@ -17,6 +17,7 @@ interface FormInputs {
   email: string;
   password: string;
   confirmPassword?: string;
+  name?: string;
 }
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -34,9 +35,9 @@ const LoginScreen = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const onSubmit = async (data: FormInputs) => {
-    setErrorMessage(null); // Clear previous errors on submit
+    setErrorMessage(null);
 
-    const { email, password, confirmPassword } = data;
+    const { email, password, confirmPassword, name } = data;
 
     if (isSignup) {
       if (password !== confirmPassword) {
@@ -44,17 +45,17 @@ const LoginScreen = () => {
         return;
       }
       try {
-        const user = await signUp(email, password);
-        console.log("Signed up user:", user.user.email);
-        navigation.navigate("Enter");
+        const user = await signUp(email, password, name);
+        console.log("Signed up user:", user);
+        navigation.navigate("Enter", { user });
       } catch (err: any) {
         setErrorMessage(err.message);
       }
     } else {
       try {
         const user = await signIn(email, password);
-        console.log("Logged in user:", user.user.email);
-        navigation.navigate("Enter");
+        console.log("Logged in user:", user);
+        navigation.navigate("Enter", { user });
       } catch (err: any) {
         setErrorMessage(err.message);
       }
@@ -64,6 +65,22 @@ const LoginScreen = () => {
   return (
     <Screen>
       <View style={styles.container}>
+        {isSignup && (
+          <AppFormInput
+            name="name"
+            label="Name"
+            placeholder="Enter Your name"
+            control={control}
+            error={errors.name}
+            rules={{
+              required: "Name is required",
+              minLength: {
+                value: 2,
+                message: "Name must be at least 2 characters",
+              },
+            }}
+          />
+        )}
         <AppFormInput
           name="email"
           label="Email"

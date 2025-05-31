@@ -16,7 +16,7 @@ import Feather from "@expo/vector-icons/Feather";
 
 interface Props {
   name: string;
-  label: string;
+  label?: string;
   placeholder: string;
   control: Control<any>;
   error?: FieldError;

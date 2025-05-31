@@ -14,6 +14,7 @@ import BillScreen from "./app/screens/BillScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "./app/screens/LoginScreen";
+import AuthProvider from "./app/services/authContext";
 
 const Stack = createNativeStackNavigator();
 
@@ -28,8 +29,10 @@ const StackNavigator = () => (
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <StackNavigator />
-    </NavigationContainer>
+    <AuthProvider>
+      <NavigationContainer>
+        <StackNavigator />
+      </NavigationContainer>
+    </AuthProvider>
   );
 }

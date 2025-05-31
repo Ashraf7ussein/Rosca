@@ -2,13 +2,15 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
+  updateProfile,
   UserCredential,
 } from "firebase/auth";
 import { auth } from "../../firebaseConfig";
 
 export const signUp = async (
   email: string,
-  password: string
+  password: string,
+  name?: string
 ): Promise<UserCredential> => {
   try {
     const userCredential = await createUserWithEmailAndPassword(
@@ -16,6 +18,12 @@ export const signUp = async (
       email,
       password
     );
+    if (auth.currentUser && name) {
+      await updateProfile(auth.currentUser, {
+        displayName: name,
+      });
+    }
+
     return userCredential;
   } catch (error: any) {
     console.error("Sign-up error:", error);
