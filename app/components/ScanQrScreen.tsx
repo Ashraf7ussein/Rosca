@@ -1,24 +1,53 @@
 import React, { useRef } from "react";
 import Screen from "../components/Screen";
-import { View, StyleSheet, TextInput } from "react-native";
+import { View, StyleSheet, TextInput, Alert } from "react-native";
 import FooterButton from "../components/FooterButton";
 import colors from "../config/colors";
 import AppText from "../components/AppText";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import PinInput from "./PinInput";
-import { useForm } from "react-hook-form";
+import { useForm, FieldValues } from "react-hook-form";
 import { useAuth } from "../services/authContext";
+import apiClient from "../services/apiClient";
 
 const pins = ["pin1", "pin2", "pin3", "pin4", "pin5", "pin6"];
+
 const ScanQrScreen = () => {
   const { control, handleSubmit } = useForm();
   const inputRefs = Array.from({ length: 6 }, () => useRef<TextInput>(null));
-
-  const onSubmit = (data: any) => {
-    const code = Object.values(data).join("");
-  };
-
   const { user } = useAuth();
+
+  const onSubmit = async (data: FieldValues) => {
+    const code = Object.values(data).join("");
+    if (code.length !== 6) {
+      Alert.alert(
+        "Invalid Code",
+        "Please enter a valid 6-digit invitation code."
+      );
+      return;
+    }
+
+    if (!user) {
+      Alert.alert("User not authenticated", "Please login to proceed.");
+      return;
+    }
+
+    try {
+      const payload = {
+        invitationCode: code,
+        name: user.displayName,
+        userId: user.uid,
+      };
+
+      console.log(payload);
+
+      const response = await apiClient.post("/api/roscas/join", payload);
+      Alert.alert("Success", "You have requested to join the ROSCA.");
+    } catch (error) {
+      console.error("Join error:", error);
+      Alert.alert("Error", "Unable to join. Please try again.");
+    }
+  };
 
   return (
     <Screen>
@@ -45,16 +74,12 @@ const ScanQrScreen = () => {
           </View>
         </View>
       </View>
-
       <FooterButton onPress={handleSubmit(onSubmit)}>Ask to join</FooterButton>
     </Screen>
   );
 };
 
 const styles = StyleSheet.create({
-  bottonsContainer: {
-    gap: 10,
-  },
   text: {
     color: colors.medium,
     fontSize: 14,
@@ -68,22 +93,10 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginBottom: 25,
   },
-  codeContainer: {
-    backgroundColor: colors.white,
-    marginTop: 20,
-    padding: 20,
-    borderRadius: 10,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
   headerContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 12,
-  },
-  codeText: {
-    fontSize: 14,
   },
   textContainer: {
     alignItems: "center",

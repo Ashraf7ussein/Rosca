@@ -50,22 +50,24 @@ const RoscaCard = ({ rosca, showEditButton = false }: Props) => {
       </View>
 
       <View style={styles.cardFooter}>
-        {rosca.membersArray.map((member) => {
-          const initials = member.name
-            .split(" ")
-            .map((n) => n[0])
-            .join("")
-            .toUpperCase();
+        {rosca.membersArray
+          .filter((member) => member.memberStatus === "accepted")
+          .map((member) => {
+            const initials = member.name
+              .split(" ")
+              .map((n: any) => n[0])
+              .join("")
+              .toUpperCase();
 
-          return (
-            <View
-              key={member._id}
-              style={[styles.user, member.isAdmin && styles.adminUser]}
-            >
-              <AppText style={styles.userLogo}>{initials}</AppText>
-            </View>
-          );
-        })}
+            return (
+              <View
+                key={member._id}
+                style={[styles.user, member.isAdmin && styles.adminUser]}
+              >
+                <AppText style={styles.userLogo}>{initials}</AppText>
+              </View>
+            );
+          })}
       </View>
     </View>
   );
