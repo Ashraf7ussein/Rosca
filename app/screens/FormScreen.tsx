@@ -8,9 +8,11 @@ import {
   View,
 } from "react-native";
 import AppFormInput from "../components/AppFormInput";
+import AppText from "../components/AppText";
 import FooterButton from "../components/FooterButton";
 import Screen from "../components/Screen";
-import AppText from "../components/AppText";
+import apiClient from "../services/apiClient";
+import { useAuth } from "../services/authContext";
 
 interface FormInputs {
   name: string;
@@ -21,6 +23,8 @@ interface FormInputs {
 }
 
 const FormScreen = () => {
+  const { user } = useAuth();
+
   const {
     handleSubmit,
     control,
@@ -28,7 +32,18 @@ const FormScreen = () => {
   } = useForm<FormInputs>();
 
   const onSubmit = (data: FormInputs) => {
-    console.log(data);
+    if (!user) return;
+    const userData = {
+      displayName: user.displayName,
+      email: user.email,
+      uid: user.uid,
+    };
+
+    const newData = { ...data, userData };
+    apiClient
+      .post("/api/roscas/create", newData)
+      .then((res) => console.log("poseted", res))
+      .catch((err) => console.log(err));
   };
 
   return (

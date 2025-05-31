@@ -15,8 +15,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "./app/screens/LoginScreen";
 import AuthProvider from "./app/services/authContext";
+import { RootStackParamList } from "./types";
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const StackNavigator = () => (
   <Stack.Navigator initialRouteName="Login">
@@ -24,6 +25,8 @@ const StackNavigator = () => (
     <Stack.Screen name="Enter" component={EnterScreen} />
     <Stack.Screen name="Create" component={FormScreen} />
     <Stack.Screen name="Join" component={ScanQrScreen} />
+    <Stack.Screen name="Home" component={HomeScreen} />
+    <Stack.Screen name="RoscaDetailsScreen" component={RoscaDetailsScreen} />
   </Stack.Navigator>
 );
 

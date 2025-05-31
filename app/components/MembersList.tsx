@@ -6,40 +6,37 @@ import UserDetails2 from "./UserDetails2";
 interface Props {
   selectedTab: string;
   onSelectMember: (member: any) => void;
+  membersArray: Member[];
 }
 
-const members = [
-  {
-    id: "1",
-    name: "this is the first",
-    date: "1/1/2001",
-    badgeLabel: "unpaid",
-    order: "1",
-  },
-  {
-    id: "2",
-    name: "this is the second",
-    date: "1/3/2001",
-    badgeLabel: "paid",
-    order: "2",
-  },
-];
+interface Member {
+  name: string;
+  isAdmin: boolean;
+  memberPaymentStatus: string;
+  totalPayments: number;
+  memberOrder: string;
+  memberStatus: string;
+  _id: string;
+  currentMonthPaymentStatus: string;
+  assignedDate: string;
+}
 
-const MembersList = ({ selectedTab, onSelectMember }: Props) => {
+const MembersList = ({ selectedTab, onSelectMember, membersArray }: Props) => {
   return (
     <ScrollView>
       {selectedTab === "accepted" ? (
         <>
-          {members.map((member) => (
-            <UserDetails
-              key={member.id}
-              name={member.name}
-              date={member.date}
-              badgeLabel={member.badgeLabel}
-              order={member.order}
-              onPress={() => onSelectMember(member)}
-            />
-          ))}
+          {membersArray &&
+            membersArray.map((member) => (
+              <UserDetails
+                key={member._id}
+                name={member.name}
+                date={member.assignedDate}
+                badgeLabel={member.memberStatus}
+                memberOrder={member.memberOrder}
+                onPress={() => onSelectMember(member)}
+              />
+            ))}
         </>
       ) : (
         <>

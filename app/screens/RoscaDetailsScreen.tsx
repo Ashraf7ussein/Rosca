@@ -20,21 +20,46 @@ import UsersBadge from "../components/UsersBadge";
 import TabContainer from "../components/TabContainer";
 import MembersList from "../components/MembersList";
 
-const RoscaDetailsScreen = () => {
+interface Member {
+  name: string;
+  isAdmin: boolean;
+  memberPaymentStatus: string;
+  totalPayments: number;
+  memberOrder: number;
+  memberStatus: string;
+  currentMonthPaymentStatus: string;
+  _id: string;
+}
+
+interface Rosca {
+  name: string;
+  badgeLabel: string;
+  endingDate: string;
+  startingDate: string;
+  monthlyAmount: string;
+  totalAmount: string;
+  _id: string;
+  membersArray: Member[];
+}
+
+const RoscaDetailsScreen = ({ route }) => {
   const [selectedTab, setSelectedTab] = useState("accepted");
   const [modalVisible, setModalVisibility] = useState(false);
   const [modalType, setModalType] = useState("options");
+
+  const { rosca } = route.params;
 
   return (
     <Screen>
       <View style={{ flex: 1 }}>
         <RoscaCard
-          name="Test"
-          badgeLabel="closed"
-          endingDate="1/1/2026"
-          startingDate="1/1/2025"
-          monthlyAmount="25 JD"
-          totalAmount="500 JD"
+          name={rosca.name}
+          badgeLabel={rosca.badgeLabel}
+          endingDate={rosca.endingDate}
+          startingDate={rosca.startingDate}
+          monthlyAmount={rosca.monthlyAmount}
+          totalAmount={rosca.totalAmount}
+          membersArray={rosca.membersArray}
           showEditButton
         />
 
@@ -65,6 +90,7 @@ const RoscaDetailsScreen = () => {
         />
 
         <MembersList
+          membersArray={rosca.membersArray}
           selectedTab={selectedTab}
           onSelectMember={(member) => {
             console.log(member);

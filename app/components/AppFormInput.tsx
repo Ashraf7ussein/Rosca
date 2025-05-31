@@ -171,6 +171,7 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 20,
     borderRadius: 15,
+    outlineWidth: 0,
   },
   dateInput: {
     justifyContent: "center",
@@ -204,6 +205,7 @@ const styles = StyleSheet.create({
   },
   passwordInput: {
     flex: 1,
+    outlineWidth: 0,
   },
 });
 

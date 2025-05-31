@@ -4,6 +4,17 @@ import colors from "../config/colors";
 import CardBadge from "./CardBadge";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
+interface Member {
+  name: string;
+  isAdmin: boolean;
+  memberPaymentStatus: string;
+  totalPayments: number;
+  memberOrder: string;
+  memberStatus: string;
+  _id: string;
+  assignedDate: string;
+}
+
 interface Props {
   name: string;
   badgeLabel: string;
@@ -12,6 +23,7 @@ interface Props {
   startingDate: string;
   endingDate: string;
   showEditButton?: boolean;
+  membersArray: Member[];
 }
 
 const RoscaCard = ({
@@ -44,9 +56,15 @@ const RoscaCard = ({
         </View>
         <View style={styles.column}>
           <Text style={[styles.cardRight, styles.label]}>Starting Date</Text>
-          <Text style={[styles.cardRight, styles.value]}>{startingDate}</Text>
+          <Text style={[styles.cardRight, styles.value]}>
+            {" "}
+            {new Date(startingDate).toLocaleDateString()}
+          </Text>
           <Text style={[styles.cardRight, styles.label]}>Ending Date</Text>
-          <Text style={styles.cardRight}>{endingDate}</Text>
+          <Text style={styles.cardRight}>
+            {" "}
+            {new Date(endingDate).toLocaleDateString()}
+          </Text>
         </View>
       </View>
       <View style={styles.cardFooter}>

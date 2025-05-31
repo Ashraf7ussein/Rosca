@@ -1,17 +1,16 @@
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React from "react";
-import { View, StyleSheet } from "react-native";
-import Screen from "../components/Screen";
+import { StyleSheet, View } from "react-native";
+import { RootStackParamList } from "../../types";
 import AppText from "../components/AppText";
 import FooterButton from "../components/FooterButton";
+import Screen from "../components/Screen";
 import colors from "../config/colors";
-import { useNavigation } from "@react-navigation/native";
-import { RootStackParamList } from "../../types";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-
-type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const EnterScreen = () => {
-  const navigation = useNavigation<NavigationProp>();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   return (
     <Screen>

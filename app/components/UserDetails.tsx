@@ -10,18 +10,24 @@ interface Member {
   name: string;
   date: string;
   badgeLabel: string;
-  order: string;
+  memberOrder: string;
   onPress: () => void;
 }
 
-const UserDetails = ({ name, date, badgeLabel, order, onPress }: Member) => {
+const UserDetails = ({
+  name,
+  date,
+  badgeLabel,
+  memberOrder,
+  onPress,
+}: Member) => {
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.container}>
         <View style={styles.leftDetails}>
           <FontAwesome6 name="bars" size={20} color={colors.medium} />
           <View>
-            <OrderCircle order={order} />
+            <OrderCircle order={memberOrder} />
             <View style={styles.userImage} />
           </View>
           <View>

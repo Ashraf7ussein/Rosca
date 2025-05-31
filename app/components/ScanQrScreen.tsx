@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 22,
+    marginBottom: 12,
   },
   codeText: {
     fontSize: 14,

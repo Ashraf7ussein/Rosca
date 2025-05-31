@@ -1,38 +1,51 @@
 import React from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  ScrollView,
+  TouchableHighlight,
+  TouchableOpacity,
+} from "react-native";
 import Screen from "../components/Screen";
 import RoscaCard from "../components/RoscaCard";
 import AppText from "../components/AppText";
+import { useNavigation } from "@react-navigation/core";
 
-const HomeScreen = () => {
+interface Rosca {
+  name: string;
+  badgeLabel: string;
+  endingDate: string;
+  startingDate: string;
+  monthlyAmount: string;
+  totalAmount: string;
+  _id: string;
+}
+
+const HomeScreen = ({ route }) => {
+  const { userRoscas } = route.params;
+  const navigation = useNavigation();
+
   return (
     <Screen>
       <ScrollView>
         <AppText style={styles.headerText}>Roscas</AppText>
-        <RoscaCard
-          name="Test"
-          badgeLabel="active"
-          endingDate="1/1/2026"
-          startingDate="1/1/2025"
-          monthlyAmount="25 JD"
-          totalAmount="500 JD"
-        />
-        <RoscaCard
-          name="Test"
-          badgeLabel="pending"
-          endingDate="1/1/2026"
-          startingDate="1/1/2025"
-          monthlyAmount="25 JD"
-          totalAmount="500 JD"
-        />
-        <RoscaCard
-          name="Test"
-          badgeLabel="closed"
-          endingDate="1/1/2026"
-          startingDate="1/1/2025"
-          monthlyAmount="25 JD"
-          totalAmount="500 JD"
-        />
+        {userRoscas &&
+          userRoscas.map((rosca: Rosca) => (
+            <TouchableOpacity
+              key={rosca._id}
+              onPress={() =>
+                navigation.navigate("RoscaDetailsScreen", { rosca })
+              }
+            >
+              <RoscaCard
+                name={rosca.name}
+                badgeLabel={rosca.badgeLabel}
+                endingDate={rosca.endingDate}
+                startingDate={rosca.startingDate}
+                monthlyAmount={rosca.monthlyAmount}
+                totalAmount={rosca.totalAmount}
+              />
+            </TouchableOpacity>
+          ))}
       </ScrollView>
     </Screen>
   );
