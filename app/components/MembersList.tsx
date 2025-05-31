@@ -26,7 +26,7 @@ const MembersList = ({ selectedTab, onSelectMember, membersArray }: Props) => {
               />
             ))
         : membersArray
-            ?.filter((m) => m.memberStatus === "accepted")
+            ?.filter((m) => m.memberStatus === "waiting")
             .map((member) => (
               <View key={member._id} style={styles.container}>
                 <View style={styles.leftDetails}>

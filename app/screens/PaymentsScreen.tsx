@@ -4,20 +4,18 @@ import Screen from "../components/Screen";
 import AppText from "../components/AppText";
 import TabContainer from "../components/TabContainer";
 import PaymentCard from "../components/PaymentCard";
+import Payment from "../../types";
 
-const PaymentsScreen = () => {
+const PaymentsScreen = ({ route }) => {
   const [selectedTab, setSelectedTab] = useState("all");
-
-  const cards = [
-    { name: "jpgn", label: "paid", month: "jan" },
-    { name: "asdsa", label: "unpaid", month: "feb" },
-    { name: "dasdsa", label: "prepay", month: "mar" },
-  ];
+  const { payments, memberName } = route.params;
 
   const filteredCards =
     selectedTab === "all"
-      ? cards
-      : cards.filter((card) => card.label === selectedTab);
+      ? payments
+      : payments.filter(
+          (payment: Payment) => payment.paymentStatus === selectedTab
+        );
 
   return (
     <Screen>
@@ -33,14 +31,17 @@ const PaymentsScreen = () => {
         ]}
       />
       <ScrollView>
-        {filteredCards.map((card, index) => (
-          <PaymentCard
-            key={index}
-            name={card.name}
-            label={card.label}
-            month={card.month}
-          />
-        ))}
+        {filteredCards &&
+          filteredCards.map((payment: Payment, index: number) => (
+            <PaymentCard
+              key={index}
+              name={payment.toUserName}
+              label={payment.paymentStatus}
+              month={new Date(payment.month).toLocaleDateString("en-US", {
+                month: "long",
+              })}
+            />
+          ))}
       </ScrollView>
     </Screen>
   );

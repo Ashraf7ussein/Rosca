@@ -22,7 +22,7 @@ const RoscaCard = ({ rosca, showEditButton = false }: Props) => {
           )}
         </View>
 
-        <CardBadge badgeLabel={rosca.badgeLabel} />
+        <CardBadge roscaStatus={rosca.roscaStatus} />
       </View>
 
       <View style={styles.cardBody}>

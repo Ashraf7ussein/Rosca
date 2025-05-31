@@ -1,5 +1,6 @@
 export default interface Payment {
-  to: string;
+  toUserName: string;
+  toUserId: string;
   month: string;
   paymentStatus: string;
 }
@@ -34,4 +35,5 @@ export type RootStackParamList = {
   Join: undefined;
   Home: { userRoscas: any[] };
   RoscaDetailsScreen: { rosca: any };
+  PaymentsScreen: { rosca: any };
 };

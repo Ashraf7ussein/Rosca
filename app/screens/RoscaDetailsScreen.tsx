@@ -12,16 +12,55 @@ import TabContainer from "../components/TabContainer";
 import UsersBadge from "../components/UsersBadge";
 import colors from "../config/colors";
 import PriceTag from "../components/PriceTag";
-import Payment from "../../types";
+import Payment, { RootStackParamList } from "../../types";
 import Member from "../../types";
+import apiClient from "../services/apiClient";
+import { useNavigation } from "@react-navigation/core";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useAuth } from "../services/authContext";
 
 const RoscaDetailsScreen = ({ route }) => {
   const [selectedTab, setSelectedTab] = useState("accepted");
   const [modalVisible, setModalVisibility] = useState(false);
   const [modalType, setModalType] = useState("options");
   const [selectedMember, setSelectedMember] = useState<Member | null>(null);
+  const [rosca, setRosca] = useState(route.params.rosca);
+  const { user } = useAuth();
 
-  const { rosca } = route.params;
+  const handleButtonClick = async () => {
+    if (rosca.roscaStatus === "pending") {
+      const roscaId = rosca._id;
+      try {
+        const res = await apiClient.post("/api/roscas/rosca/status", {
+          roscaId,
+          action: "start",
+        });
+        setRosca(res.data.roscaObject);
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      if (!user) {
+        console.warn("User not authenticated");
+        return;
+      }
+
+      const currentMember = rosca.membersArray.find((m) => m.id === user.id);
+
+      if (!currentMember) {
+        console.warn("Current user is not part of this Rosca");
+        return;
+      }
+
+      navigation.navigate("PaymentsScreen", {
+        roscaId: rosca._id,
+        payments: currentMember.payments,
+      });
+    }
+  };
+
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   return (
     <Screen>
@@ -98,8 +137,11 @@ const RoscaDetailsScreen = ({ route }) => {
       </View>
 
       <View style={styles.footer}>
-        <FooterButton disabled={selectedTab === "waiting"} onPress={() => {}}>
-          Start Rosca
+        <FooterButton
+          disabled={selectedTab === "waiting"}
+          onPress={handleButtonClick}
+        >
+          {rosca.roscaStatus === "pending" ? "Start Rosca" : "Show my payments"}
         </FooterButton>
       </View>
     </Screen>

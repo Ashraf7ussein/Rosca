@@ -4,18 +4,18 @@ import AppText from "./AppText";
 import colors from "../config/colors";
 
 interface Props {
-  badgeLabel: string;
+  roscaStatus: string;
 }
 
-const CardBadge = ({ badgeLabel = "pending" }: Props) => {
+const CardBadge = ({ roscaStatus = "pending" }: Props) => {
   return (
     <View
       style={[
         styles.badge,
-        { backgroundColor: colors[badgeLabel as keyof typeof colors] },
+        { backgroundColor: colors[roscaStatus as keyof typeof colors] },
       ]}
     >
-      <AppText style={styles.label}>{badgeLabel}</AppText>
+      <AppText style={styles.label}>{roscaStatus}</AppText>
     </View>
   );
 };

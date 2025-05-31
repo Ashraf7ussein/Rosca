@@ -7,7 +7,6 @@ import MembersScreen from "./app/screens/MembersScreen";
 import ScanQrScreen from "./app/components/ScanQrScreen";
 import PaymentsScreen from "./app/screens/PaymentsScreen";
 import PaymentConfirmationScreen from "./app/screens/PaymentlConfirmationScreen";
-import PaymentScreen from "./app/screens/PaymentScreen";
 import OtpScreen from "./app/screens/OtpScreen";
 import BillScreen from "./app/screens/BillScreen";
 
@@ -27,6 +26,7 @@ const StackNavigator = () => (
     <Stack.Screen name="Join" component={ScanQrScreen} />
     <Stack.Screen name="Home" component={HomeScreen} />
     <Stack.Screen name="RoscaDetailsScreen" component={RoscaDetailsScreen} />
+    <Stack.Screen name="PaymentsScreen" component={PaymentsScreen} />
   </Stack.Navigator>
 );
 
