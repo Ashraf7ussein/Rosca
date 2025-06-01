@@ -41,13 +41,13 @@ const FormScreen = () => {
     if (!user) return;
     const userData = {
       displayName: user.displayName,
-      email: user.email,
+
       uid: user.uid,
     };
 
     const newData = { ...data, userData };
     apiClient
-      .post("/api/roscas/create", newData)
+      .post("/create", newData)
       .then((res) => console.log("true"))
       .catch((err) => console.log(err));
   };

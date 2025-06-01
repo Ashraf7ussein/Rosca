@@ -35,13 +35,13 @@ const ScanQrScreen = () => {
     try {
       const payload = {
         invitationCode: code,
-        name: user.displayName,
-        userId: user.uid,
+        memberName: user.displayName,
+        memberId: user.uid,
       };
 
       console.log(payload);
 
-      const response = await apiClient.post("/api/roscas/join", payload);
+      const response = await apiClient.post("/join", payload);
       Alert.alert("Success", "You have requested to join the ROSCA.");
     } catch (error) {
       console.error("Join error:", error);

@@ -31,11 +31,11 @@ const RoscaDetailsScreen = ({ route }) => {
     if (rosca.roscaStatus === "pending") {
       const roscaId = rosca._id;
       try {
-        const res = await apiClient.post("/api/roscas/rosca/status", {
-          roscaId,
-          action: "start",
+        const res = await apiClient.put(`/status/${roscaId}`, {
+          status: "active",
         });
-        setRosca(res.data.roscaObject);
+
+        setRosca(res.data.rosca);
       } catch (err) {
         console.log(err);
       }
