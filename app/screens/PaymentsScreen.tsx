@@ -8,7 +8,7 @@ import Payment from "../../types";
 
 const PaymentsScreen = ({ route }) => {
   const [selectedTab, setSelectedTab] = useState("all");
-  const { payments, memberName } = route.params;
+  const { payments } = route.params;
 
   const filteredCards =
     selectedTab === "all"

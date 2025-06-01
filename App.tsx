@@ -29,6 +29,10 @@ const StackNavigator = () => (
     <Stack.Screen name="PaymentsScreen" component={PaymentsScreen} />
     <Stack.Screen name="MembersScreen" component={MembersScreen} />
     <Stack.Screen name="InviteScreen" component={InviteScreen} />
+    <Stack.Screen
+      name="PaymentConfirmationScreen"
+      component={PaymentConfirmationScreen}
+    />
   </Stack.Navigator>
 );
 

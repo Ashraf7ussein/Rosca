@@ -3,6 +3,9 @@ import colors from "../config/colors";
 import CircularIcon from "./CircularIcon";
 import AppText from "./AppText";
 import SquareButton from "./SquareButton";
+import { useNavigation } from "@react-navigation/core";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../types";
 
 interface Props {
   label: "paid" | "unpaid" | string;
