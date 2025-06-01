@@ -54,7 +54,7 @@ const LoginScreen = () => {
       try {
         const user = await signIn(email, password);
 
-        const res = await apiClient.get(`/api/roscas/user/${user.user.uid}`);
+        const res = await apiClient.get(`/user/roscas/${user.user.uid}`);
 
         const userRoscas = res.data.roscas;
 
