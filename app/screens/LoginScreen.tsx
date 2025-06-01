@@ -13,6 +13,7 @@ import apiClient from "../services/apiClient";
 import { signIn, signUp } from "../services/authService";
 import { RootStackParamList } from "../../types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import Spinner from "../components/Spinner";
 
 interface FormInputs {
   name?: string;
@@ -33,15 +34,18 @@ const LoginScreen = () => {
 
   const [isSignup, setSignup] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isLoading, setLoading] = useState(false);
 
   const onSubmit = async (data: FormInputs) => {
     setErrorMessage(null);
+    setLoading(true); // ✅ Start spinner
 
     const { email, password, confirmPassword, name } = data;
 
     if (isSignup) {
       if (password !== confirmPassword) {
         setErrorMessage("Passwords do not match");
+        setLoading(false);
         return;
       }
       try {
@@ -49,13 +53,13 @@ const LoginScreen = () => {
         navigation.navigate("Enter");
       } catch (err: any) {
         setErrorMessage(err.message);
+      } finally {
+        setLoading(false);
       }
     } else {
       try {
         const user = await signIn(email, password);
-
         const res = await apiClient.get(`/user/roscas/${user.user.uid}`);
-
         const userRoscas = res.data.roscas;
 
         if (userRoscas.length > 0) {
@@ -65,13 +69,22 @@ const LoginScreen = () => {
         }
       } catch (err: any) {
         setErrorMessage(err.message);
+      } finally {
+        setLoading(false);
       }
     }
   };
 
   return (
     <Screen>
+      <Spinner visible={isLoading} />
       <ScrollView>
+        <AppText style={styles.welcomeText}>
+          {isSignup
+            ? "Welcome! Create your account"
+            : "Welcome back! Please log in"}
+        </AppText>
+
         <View style={styles.container}>
           {isSignup && (
             <AppFormInput
@@ -146,7 +159,7 @@ const LoginScreen = () => {
       </ScrollView>
 
       <View style={styles.buttonsContainer}>
-        <FooterButton onPress={handleSubmit(onSubmit)}>
+        <FooterButton disabled={isLoading} onPress={handleSubmit(onSubmit)}>
           {isSignup ? "Signup" : "Login"}
         </FooterButton>
       </View>
@@ -174,6 +187,14 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginVertical: 10,
     fontSize: 14,
+  },
+  welcomeText: {
+    fontSize: 22,
+    fontWeight: "700",
+    textAlign: "center",
+    marginBottom: 50,
+    marginTop: 10,
+    color: colors.primary,
   },
 });
 
