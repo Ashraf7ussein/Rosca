@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import {
   KeyboardAvoidingView,
@@ -25,36 +25,74 @@ interface FormInputs {
   endingDate: string;
 }
 
-const FormScreen = () => {
+interface FormScreenProps {
+  route: {
+    params?: {
+      rosca?: {
+        name: string;
+        membersCount?: number;
+        monthlyAmount?: number;
+        startingDate?: string;
+        endingDate?: string;
+      };
+    };
+  };
+}
+
+const FormScreen: React.FC<FormScreenProps> = ({ route }) => {
   const { user } = useAuth();
 
   const {
     handleSubmit,
     control,
+    reset,
     formState: { errors },
   } = useForm<FormInputs>();
 
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const rosca = route.params?.rosca;
 
   const onSubmit = (data: FormInputs) => {
+    // if comming to edit already created rosca
+    if (rosca) {
+      apiClient
+        .put(`/update/${rosca._id}`, data)
+        .then(() => console.log("Success"))
+        .catch((err) => console.log(err));
+    }
+
+    // if comming to create new rosca
     if (!user) return;
     const userData = {
       displayName: user.displayName,
-
       uid: user.uid,
     };
 
     const newData = { ...data, userData };
     apiClient
       .post("/create", newData)
-      .then((res) => console.log("true"))
+      .then(() => console.log("Success"))
       .catch((err) => console.log(err));
   };
 
+  useEffect(() => {
+    if (rosca) {
+      reset({
+        name: rosca.name || "",
+        membersCount: rosca.membersCount?.toString() || "",
+        monthlyAmount: rosca.monthlyAmount?.toString() || "",
+        startingDate: rosca.startingDate || "",
+        endingDate: rosca.endingDate || "",
+      });
+    }
+  }, [rosca, reset]);
+
   return (
     <Screen>
-      <AppText style={styles.headerText}>Create new rosca</AppText>
+      <AppText style={styles.headerText}>
+        {rosca ? `Edit ${rosca.name} Rosca` : "Create new rosca"}
+      </AppText>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : undefined}
         style={{ flex: 1 }}
@@ -68,9 +106,7 @@ const FormScreen = () => {
               placeholder="Ex: Neighborhood"
               control={control}
               error={errors.name}
-              rules={{
-                required: "Name is required",
-              }}
+              rules={{ required: "Name is required" }}
             />
             <AppFormInput
               type="number"
@@ -79,9 +115,7 @@ const FormScreen = () => {
               placeholder="Ex: 5"
               control={control}
               error={errors.membersCount}
-              rules={{
-                required: "Count is required",
-              }}
+              rules={{ required: "Count is required" }}
             />
             <AppFormInput
               type="number"
@@ -90,9 +124,7 @@ const FormScreen = () => {
               placeholder="Ex: 50 JOD"
               control={control}
               error={errors.monthlyAmount}
-              rules={{
-                required: "Monthly Amount is required",
-              }}
+              rules={{ required: "Monthly Amount is required" }}
             />
             <AppFormInput
               name="startingDate"
@@ -101,9 +133,7 @@ const FormScreen = () => {
               placeholder="YYYY/MM"
               control={control}
               error={errors.startingDate}
-              rules={{
-                required: "Starting Date is required",
-              }}
+              rules={{ required: "Starting Date is required" }}
             />
             <AppFormInput
               name="endingDate"
@@ -112,14 +142,14 @@ const FormScreen = () => {
               placeholder="YYYY/MM"
               control={control}
               error={errors.endingDate}
-              rules={{
-                required: "Ending Date is required",
-              }}
+              rules={{ required: "Ending Date is required" }}
             />
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
-      <FooterButton onPress={handleSubmit(onSubmit)}>Confirm</FooterButton>
+      <FooterButton onPress={handleSubmit(onSubmit)}>
+        {rosca ? "Save" : "Confirm"}
+      </FooterButton>
     </Screen>
   );
 };

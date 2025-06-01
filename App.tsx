@@ -22,11 +22,13 @@ const StackNavigator = () => (
   <Stack.Navigator initialRouteName="Login">
     <Stack.Screen name="Login" component={LoginScreen} />
     <Stack.Screen name="Enter" component={EnterScreen} />
-    <Stack.Screen name="Create" component={FormScreen} />
+    <Stack.Screen name="FormScreen" component={FormScreen} />
     <Stack.Screen name="Join" component={ScanQrScreen} />
     <Stack.Screen name="Home" component={HomeScreen} />
     <Stack.Screen name="RoscaDetailsScreen" component={RoscaDetailsScreen} />
     <Stack.Screen name="PaymentsScreen" component={PaymentsScreen} />
+    <Stack.Screen name="MembersScreen" component={MembersScreen} />
+    <Stack.Screen name="InviteScreen" component={InviteScreen} />
   </Stack.Navigator>
 );
 

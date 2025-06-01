@@ -38,7 +38,7 @@ const LoginScreen = () => {
 
   const onSubmit = async (data: FormInputs) => {
     setErrorMessage(null);
-    setLoading(true); // ✅ Start spinner
+    setLoading(true);
 
     const { email, password, confirmPassword, name } = data;
 

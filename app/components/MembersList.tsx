@@ -10,9 +10,15 @@ interface Props {
   selectedTab: string;
   onSelectMember: (member: any) => void;
   membersArray: Member[];
+  handleMemberStatus: (status: string, member: Member) => void;
 }
 
-const MembersList = ({ selectedTab, onSelectMember, membersArray }: Props) => {
+const MembersList = ({
+  selectedTab,
+  onSelectMember,
+  membersArray,
+  handleMemberStatus,
+}: Props) => {
   return (
     <ScrollView>
       {selectedTab === "accepted"
@@ -44,13 +50,16 @@ const MembersList = ({ selectedTab, onSelectMember, membersArray }: Props) => {
                   <View>
                     <AppText style={styles.username}>{member.name}</AppText>
                     <View style={styles.buttonsContainer}>
-                      <SquareButton textColor={colors.black} onPress={() => {}}>
+                      <SquareButton
+                        textColor={colors.black}
+                        onPress={() => handleMemberStatus("accepted", member)}
+                      >
                         Accept
                       </SquareButton>
                       <SquareButton
                         backgroundColor={colors.secondary}
                         textColor={colors.black}
-                        onPress={() => {}}
+                        onPress={() => handleMemberStatus("rejected", member)}
                       >
                         Reject
                       </SquareButton>

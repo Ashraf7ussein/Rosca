@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import colors from "../config/colors";
 import CardBadge from "./CardBadge";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
@@ -9,16 +9,19 @@ import AppText from "./AppText";
 interface Props {
   showEditButton?: boolean;
   rosca: Rosca;
+  onEdit?: () => void;
 }
 
-const RoscaCard = ({ rosca, showEditButton = false }: Props) => {
+const RoscaCard = ({ rosca, onEdit, showEditButton = false }: Props) => {
   return (
     <View style={styles.card}>
       <View style={styles.cardHeader}>
         <View style={styles.headerLeft}>
           <Text style={styles.name}>{rosca.name}</Text>
           {showEditButton && (
-            <MaterialCommunityIcons name="pencil" size={20} color="black" />
+            <TouchableOpacity onPress={onEdit}>
+              <MaterialCommunityIcons name="pencil" size={20} color="black" />
+            </TouchableOpacity>
           )}
         </View>
 

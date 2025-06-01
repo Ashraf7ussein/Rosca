@@ -31,9 +31,11 @@ export default interface Rosca {
 export type RootStackParamList = {
   Login: undefined;
   Enter: undefined;
-  Create: undefined;
+  FormScreen: { rosca?: any };
   Join: undefined;
+  InviteScreen: undefined;
   Home: { userRoscas: any[] };
   RoscaDetailsScreen: { rosca: any };
   PaymentsScreen: { rosca: any };
+  MembersScreen: { Members: any[] };
 };

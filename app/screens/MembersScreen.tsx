@@ -7,8 +7,9 @@ import UserDetails from "../components/UserDetails";
 import UserDetails2 from "../components/UserDetails2";
 import MembersList from "../components/MembersList";
 
-const MembersScreen = () => {
+const MembersScreen = ({ route }) => {
   const [selectedTab, setSelectedTab] = useState("accepted");
+  const [membersArray, setMembersArray] = useState(route.params.members);
 
   return (
     <Screen>
@@ -21,7 +22,11 @@ const MembersScreen = () => {
           { label: "Waiting Approval", value: "waiting" },
         ]}
       />
-      <MembersList selectedTab={selectedTab} onSelectMember={() => {}} />
+      <MembersList
+        membersArray={membersArray}
+        selectedTab={selectedTab}
+        onSelectMember={() => {}}
+      />
     </Screen>
   );
 };

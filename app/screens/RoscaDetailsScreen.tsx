@@ -18,11 +18,14 @@ import apiClient from "../services/apiClient";
 import { useNavigation } from "@react-navigation/core";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useAuth } from "../services/authContext";
+import Spinner from "../components/Spinner";
 
 const RoscaDetailsScreen = ({ route }) => {
   const [selectedTab, setSelectedTab] = useState("accepted");
   const [modalVisible, setModalVisibility] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const [modalType, setModalType] = useState("options");
+  const [closeVisible, setCloseVisible] = useState(false);
   const [selectedMember, setSelectedMember] = useState<Member | null>(null);
   const [rosca, setRosca] = useState(route.params.rosca);
   const { user } = useAuth();
@@ -59,13 +62,47 @@ const RoscaDetailsScreen = ({ route }) => {
     }
   };
 
+  const handleCloseRosca = async () => {
+    setLoading(true);
+    try {
+      const res = await apiClient.put(`/close/${rosca._id}`);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleMemberStatus = async (status: string, member: Member) => {
+    setLoading(true);
+    try {
+      const res = await apiClient.put(
+        `/members/${rosca._id}/${member._id}/status`,
+        { status }
+      );
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   return (
     <Screen>
+      <Spinner visible={isLoading} />
       <View style={{ flex: 1 }}>
-        <RoscaCard rosca={rosca} showEditButton />
+        <RoscaCard
+          rosca={rosca}
+          showEditButton
+          onEdit={() => navigation.navigate("FormScreen", { rosca })}
+        />
 
         <View style={styles.container}>
           <AppText style={styles.text}>Members</AppText>
@@ -78,7 +115,13 @@ const RoscaDetailsScreen = ({ route }) => {
             >
               <CircularIcon size={20} name="dots-horizontal" />
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("MembersScreen", {
+                  members: rosca.membersArray,
+                });
+              }}
+            >
               <CircularIcon size={20} name="head" />
             </TouchableOpacity>
           </View>
@@ -101,13 +144,50 @@ const RoscaDetailsScreen = ({ route }) => {
             setSelectedMember(member);
             setModalVisibility(true);
           }}
+          handleMemberStatus={handleMemberStatus}
         />
 
         {modalVisible && modalType === "options" && (
-          <AppModal onClose={() => setModalVisibility(false)}>
-            <OptionItem />
-            <OptionItem />
-            <OptionItem />
+          <AppModal
+            onClose={() => {
+              setModalVisibility(false);
+              setCloseVisible(false); // reset close view
+            }}
+          >
+            {closeVisible ? (
+              <FooterButton
+                backgroundColor={colors.danger}
+                disabled={selectedTab === "waiting"}
+                onPress={handleCloseRosca}
+              >
+                Close Rosca
+              </FooterButton>
+            ) : (
+              <>
+                <OptionItem
+                  text="Invite Member"
+                  iconName="account-arrow-right"
+                  onPress={() => {
+                    navigation.navigate("InviteScreen");
+                    setModalVisibility(false);
+                  }}
+                />
+                <OptionItem
+                  text="Change Admin"
+                  iconName="arrow-u-right-top-bold"
+                  onPress={() => {
+                    setModalVisibility(false);
+                  }}
+                />
+                <OptionItem
+                  text="Stop Rosca"
+                  iconName="alpha-x-circle-outline"
+                  onPress={() => {
+                    setCloseVisible(true);
+                  }}
+                />
+              </>
+            )}
           </AppModal>
         )}
 
@@ -213,7 +293,7 @@ const styles = StyleSheet.create({
   grid: {
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "space-between",
+    justifyContent: "space-evenly",
     gap: 12,
   },
 });
