@@ -29,7 +29,10 @@ const FooterButton = ({
           styles.text,
           {
             color:
-              backgroundColor === colors.primary ? colors.white : colors.black,
+              backgroundColor === colors.primary ||
+              backgroundColor === colors.danger
+                ? colors.white
+                : colors.black,
           },
         ]}
       >

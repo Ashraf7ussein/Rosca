@@ -1,14 +1,16 @@
 import React from "react";
-import { ScrollView, View, StyleSheet } from "react-native";
+import { ScrollView, View, StyleSheet, TouchableOpacity } from "react-native";
 import Member from "../../types";
 import colors from "../config/colors";
 import AppText from "./AppText";
 import SquareButton from "./SquareButton";
 import UserDetails from "./UserDetails";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 interface Props {
   selectedTab: string;
   onSelectMember: (member: any) => void;
+  handleDelete: (memberId: string) => void;
   membersArray: Member[];
   handleMemberStatus: (status: string, member: Member) => void;
 }
@@ -18,6 +20,7 @@ const MembersList = ({
   onSelectMember,
   membersArray,
   handleMemberStatus,
+  handleDelete,
 }: Props) => {
   return (
     <ScrollView>
@@ -29,6 +32,17 @@ const MembersList = ({
                 key={member._id}
                 member={member}
                 onPress={() => onSelectMember(member)}
+                renderRightActions={() => (
+                  <TouchableOpacity onPress={() => handleDelete(member._id)}>
+                    <View style={styles.deleteContainer}>
+                      <MaterialCommunityIcons
+                        name="trash-can"
+                        size={30}
+                        color={colors.white}
+                      />
+                    </View>
+                  </TouchableOpacity>
+                )}
               />
             ))
         : membersArray
@@ -118,6 +132,13 @@ const styles = StyleSheet.create({
   adminUser: {
     backgroundColor: colors.primary,
     borderColor: colors.secondary,
+  },
+  deleteContainer: {
+    backgroundColor: colors.danger,
+    width: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 1,
   },
 });
 

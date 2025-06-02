@@ -2,6 +2,11 @@ import React from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
+import {
+  GestureHandlerRootView,
+  Swipeable,
+} from "react-native-gesture-handler";
+
 import AppText from "./AppText";
 import OrderCircle from "./OrderCircle";
 import UsersBadge from "../components/UsersBadge";
@@ -11,9 +16,10 @@ import Member from "../../types";
 interface Props {
   member: Member;
   onPress: () => void;
+  renderRightActions?: () => React.ReactNode;
 }
 
-const UserDetails = ({ member, onPress }: Props) => {
+const UserDetails = ({ member, onPress, renderRightActions }: Props) => {
   const initials = member.name
     .split(" ")
     .map((n) => n[0])
@@ -26,27 +32,31 @@ const UserDetails = ({ member, onPress }: Props) => {
   );
 
   return (
-    <TouchableOpacity onPress={onPress}>
-      <View style={styles.container}>
-        <View style={styles.leftDetails}>
-          <FontAwesome6 name="bars" size={20} color={colors.medium} />
+    <GestureHandlerRootView>
+      <Swipeable renderRightActions={renderRightActions}>
+        <TouchableOpacity onPress={onPress}>
+          <View style={styles.container}>
+            <View style={styles.leftDetails}>
+              <FontAwesome6 name="bars" size={20} color={colors.medium} />
 
-          <View>
-            <OrderCircle order={member.memberOrder} />
-            <View style={[styles.user, member.isAdmin && styles.adminUser]}>
-              <AppText style={styles.userLogo}>{initials}</AppText>
+              <View>
+                <OrderCircle order={member.memberOrder} />
+                <View style={[styles.user, member.isAdmin && styles.adminUser]}>
+                  <AppText style={styles.userLogo}>{initials}</AppText>
+                </View>
+              </View>
+
+              <View>
+                <AppText style={styles.username}>{member.name}</AppText>
+                <AppText style={styles.date}>{assignedMonth}</AppText>
+              </View>
             </View>
-          </View>
 
-          <View>
-            <AppText style={styles.username}>{member.name}</AppText>
-            <AppText style={styles.date}>{assignedMonth}</AppText>
+            <UsersBadge label={member.memberPaymentStatus} />
           </View>
-        </View>
-
-        <UsersBadge label={member.memberPaymentStatus} />
-      </View>
-    </TouchableOpacity>
+        </TouchableOpacity>
+      </Swipeable>
+    </GestureHandlerRootView>
   );
 };
 

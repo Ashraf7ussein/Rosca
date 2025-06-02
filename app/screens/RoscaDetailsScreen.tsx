@@ -75,6 +75,19 @@ const RoscaDetailsScreen = ({ route }) => {
     }
   };
 
+  const handleDelete = async (memberId) => {
+    setLoading(true);
+    try {
+      const res = await apiClient.delete(`/members/${rosca._id}/${memberId}`);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleMemberStatus = async (status: string, member: Member) => {
     setLoading(true);
     try {
@@ -137,6 +150,7 @@ const RoscaDetailsScreen = ({ route }) => {
         />
 
         <MembersList
+          handleDelete={handleDelete}
           membersArray={rosca.membersArray}
           selectedTab={selectedTab}
           onSelectMember={(member) => {
@@ -155,13 +169,18 @@ const RoscaDetailsScreen = ({ route }) => {
             }}
           >
             {closeVisible ? (
-              <FooterButton
-                backgroundColor={colors.danger}
-                disabled={selectedTab === "waiting"}
-                onPress={handleCloseRosca}
-              >
-                Close Rosca
-              </FooterButton>
+              <>
+                <AppText
+                  style={styles.closeText}
+                >{`Are you sure you want to close ${rosca.name}? This action can not be undone`}</AppText>
+                <FooterButton
+                  backgroundColor={colors.danger}
+                  disabled={selectedTab === "waiting"}
+                  onPress={handleCloseRosca}
+                >
+                  Close Rosca
+                </FooterButton>
+              </>
             ) : (
               <>
                 <OptionItem
@@ -295,6 +314,11 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "space-evenly",
     gap: 12,
+  },
+  closeText: {
+    fontSize: 20,
+    textAlign: "center",
+    marginBottom: 16,
   },
 });
 
