@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet } from "react-native";
 import AppText from "../components/AppText";
+import MembersList from "../components/MembersList";
 import Screen from "../components/Screen";
 import TabContainer from "../components/TabContainer";
-import UserDetails from "../components/UserDetails";
-import UserDetails2 from "../components/UserDetails2";
-import MembersList from "../components/MembersList";
 
 const MembersScreen = ({ route }) => {
   const [selectedTab, setSelectedTab] = useState("accepted");
@@ -13,7 +11,7 @@ const MembersScreen = ({ route }) => {
 
   return (
     <Screen>
-      <AppText style={styles.headerText}>Memebrs</AppText>
+      <AppText style={styles.headerText}>Members</AppText>
       <TabContainer
         onPress={(tab) => setSelectedTab(tab)}
         selectedTab={selectedTab}
@@ -26,6 +24,7 @@ const MembersScreen = ({ route }) => {
         membersArray={membersArray}
         selectedTab={selectedTab}
         onSelectMember={() => {}}
+        handleMemberStatus={() => {}}
       />
     </Screen>
   );

@@ -6,6 +6,7 @@ import AppFormInput from "../components/AppFormInput";
 import AppText from "../components/AppText";
 import FooterButton from "../components/FooterButton";
 import Screen from "../components/Screen";
+import { Rosca, Member } from "../../types";
 
 import colors from "../config/colors";
 import apiClient from "../services/apiClient";
@@ -62,8 +63,15 @@ const LoginScreen = () => {
         const userRoscas = res.data.roscas;
         reset();
 
-        if (userRoscas.length > 0) {
-          navigation.navigate("Home", { userRoscas });
+        const acceptedRoscas = userRoscas.filter((rosca: Rosca) =>
+          rosca.membersArray.some(
+            (member: Member) =>
+              member._id === user.user.uid && member.memberStatus === "accepted"
+          )
+        );
+
+        if (acceptedRoscas.length > 0) {
+          navigation.navigate("Home", { userRoscas: acceptedRoscas });
         } else {
           navigation.navigate("Enter");
         }

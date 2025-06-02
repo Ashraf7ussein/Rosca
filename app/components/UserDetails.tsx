@@ -11,7 +11,7 @@ import AppText from "./AppText";
 import OrderCircle from "./OrderCircle";
 import UsersBadge from "../components/UsersBadge";
 import colors from "../config/colors";
-import Member from "../../types";
+import { Member } from "../../types";
 
 interface Props {
   member: Member;

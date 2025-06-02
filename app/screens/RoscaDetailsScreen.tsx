@@ -139,7 +139,7 @@ const RoscaDetailsScreen = ({ route }: Props) => {
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate("MembersScreen", {
-                  Members: rosca.membersArray,
+                  members: rosca.membersArray,
                 });
               }}
             >

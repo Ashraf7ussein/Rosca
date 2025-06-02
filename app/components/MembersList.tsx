@@ -10,7 +10,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 interface Props {
   selectedTab: string;
   onSelectMember: (member: any) => void;
-  handleDelete: (memberId: string) => void;
+  handleDelete?: (memberId: string) => void;
   membersArray: Member[];
   handleMemberStatus: (status: string, member: Member) => void;
 }
