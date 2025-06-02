@@ -3,17 +3,16 @@ import colors from "../config/colors";
 import CircularIcon from "./CircularIcon";
 import AppText from "./AppText";
 import SquareButton from "./SquareButton";
-import { useNavigation } from "@react-navigation/core";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../types";
+import useAppNavigation from "../hooks/useAppNavigation";
 
 interface Props {
   label: "paid" | "unpaid" | string;
   name: string;
   month: string;
+  toUserId: string;
 }
 
-const PaymentCard = ({ label, name, month }: Props) => {
+const PaymentCard = ({ label, name, month, toUserId }: Props) => {
   const getIconName = () => {
     switch (label) {
       case "paid":
@@ -47,6 +46,8 @@ const PaymentCard = ({ label, name, month }: Props) => {
     }
   };
 
+  const navigation = useAppNavigation();
+
   return (
     <View style={styles.card}>
       <View style={styles.container}>
@@ -63,7 +64,16 @@ const PaymentCard = ({ label, name, month }: Props) => {
       </View>
 
       {label !== "paid" && (
-        <SquareButton textColor={colors.black} onPress={() => {}}>
+        <SquareButton
+          textColor={colors.black}
+          onPress={() => {
+            navigation.navigate("PaymentConfirmationScreen", {
+              month,
+              name,
+              toUserId,
+            });
+          }}
+        >
           {label === "unpaid" ? "Pay" : "Pre pay"}
         </SquareButton>
       )}

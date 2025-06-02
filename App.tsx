@@ -9,6 +9,7 @@ import PaymentsScreen from "./app/screens/PaymentsScreen";
 import PaymentConfirmationScreen from "./app/screens/PaymentlConfirmationScreen";
 import OtpScreen from "./app/screens/OtpScreen";
 import BillScreen from "./app/screens/BillScreen";
+import ReasonsScreen from "./app/screens/ReasonsScreen";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -29,6 +30,9 @@ const StackNavigator = () => (
     <Stack.Screen name="PaymentsScreen" component={PaymentsScreen} />
     <Stack.Screen name="MembersScreen" component={MembersScreen} />
     <Stack.Screen name="InviteScreen" component={InviteScreen} />
+    <Stack.Screen name="OtpScreen" component={OtpScreen} />
+    <Stack.Screen name="BillScreen" component={BillScreen} />
+    <Stack.Screen name="ReasonsScreen" component={ReasonsScreen} />
     <Stack.Screen
       name="PaymentConfirmationScreen"
       component={PaymentConfirmationScreen}

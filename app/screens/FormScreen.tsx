@@ -13,9 +13,7 @@ import FooterButton from "../components/FooterButton";
 import Screen from "../components/Screen";
 import apiClient from "../services/apiClient";
 import { useAuth } from "../services/authContext";
-import { useNavigation } from "@react-navigation/native";
-import { RootStackParamList } from "../../types";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import useAppNavigation from "../hooks/useAppNavigation";
 
 interface FormInputs {
   name: string;
@@ -49,8 +47,7 @@ const FormScreen: React.FC<FormScreenProps> = ({ route }) => {
     formState: { errors },
   } = useForm<FormInputs>();
 
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation = useAppNavigation();
   const rosca = route.params?.rosca;
 
   const onSubmit = (data: FormInputs) => {

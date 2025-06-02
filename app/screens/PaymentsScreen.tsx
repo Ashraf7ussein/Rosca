@@ -37,6 +37,7 @@ const PaymentsScreen = ({ route }) => {
               key={index}
               name={payment.toUserName}
               label={payment.paymentStatus}
+              toUserId={payment.toUserId}
               month={new Date(payment.month).toLocaleDateString("en-US", {
                 month: "long",
               })}

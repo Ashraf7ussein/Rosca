@@ -27,16 +27,3 @@ export default interface Rosca {
   totalAmount: string;
   membersArray: any[];
 }
-
-export type RootStackParamList = {
-  Login: undefined;
-  Enter: undefined;
-  FormScreen: { rosca?: any };
-  Join: undefined;
-  InviteScreen: undefined;
-  PaymentConfirmationScreen: undefined;
-  Home: { userRoscas: any[] };
-  RoscaDetailsScreen: { rosca: any };
-  PaymentsScreen: { rosca: any };
-  MembersScreen: { Members: any[] };
-};

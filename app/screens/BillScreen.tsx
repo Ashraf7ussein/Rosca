@@ -6,8 +6,10 @@ import colors from "../config/colors";
 import { View, StyleSheet } from "react-native";
 import FooterButton from "../components/FooterButton";
 import PriceTag from "../components/PriceTag";
+import useAppNavigation from "../hooks/useAppNavigation";
 
 const BillScreen = () => {
+  const navigation = useAppNavigation();
   return (
     <Screen>
       <View style={styles.container}>
@@ -16,7 +18,7 @@ const BillScreen = () => {
       </View>
       <View style={styles.bill}>
         <View style={styles.billTop}>
-          <PriceTag amount={120.25} />
+          <PriceTag amount={120.25} size={50} />
           <AppText style={styles.groupName}>Family Group</AppText>
         </View>
 
@@ -44,7 +46,13 @@ const BillScreen = () => {
           <View key={i} style={styles.triangle} />
         ))}
       </View>
-      <FooterButton onPress={() => {}}>Home</FooterButton>
+      <FooterButton
+        onPress={() => {
+          navigation.navigate("");
+        }}
+      >
+        Home
+      </FooterButton>
     </Screen>
   );
 };

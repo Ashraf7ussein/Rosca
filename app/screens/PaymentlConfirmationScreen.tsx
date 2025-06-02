@@ -6,8 +6,11 @@ import colors from "../config/colors";
 import CircularIcon from "../components/CircularIcon";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import FooterButton from "../components/FooterButton";
+import useAppNavigation from "../hooks/useAppNavigation";
 
-const PaymentConfirmationScreen = () => {
+const PaymentConfirmationScreen = ({ route }) => {
+  const { toUserId, name, month } = route.params;
+  const navigation = useAppNavigation();
   return (
     <Screen>
       <AppText style={styles.headerText}>Confirm your payment</AppText>
@@ -35,14 +38,20 @@ const PaymentConfirmationScreen = () => {
         </View>
         <View style={styles.verticalContainer}>
           <AppText style={styles.title}>Month</AppText>
-          <AppText style={styles.subTitle}>July</AppText>
+          <AppText style={styles.subTitle}>{month}</AppText>
         </View>
         <View style={styles.verticalContainer}>
           <AppText style={styles.title}>To</AppText>
-          <AppText style={styles.subTitle}>Marwan Khallof</AppText>
+          <AppText style={styles.subTitle}>{name}</AppText>
         </View>
       </ScrollView>
-      <FooterButton onPress={() => {}}>Confirm</FooterButton>
+      <FooterButton
+        onPress={() => {
+          navigation.navigate("ReasonsScreen");
+        }}
+      >
+        Confirm
+      </FooterButton>
     </Screen>
   );
 };

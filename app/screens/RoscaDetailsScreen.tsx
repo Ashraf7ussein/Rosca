@@ -12,13 +12,12 @@ import TabContainer from "../components/TabContainer";
 import UsersBadge from "../components/UsersBadge";
 import colors from "../config/colors";
 import PriceTag from "../components/PriceTag";
-import Payment, { RootStackParamList } from "../../types";
+import Payment from "../../types";
 import Member from "../../types";
 import apiClient from "../services/apiClient";
-import { useNavigation } from "@react-navigation/core";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useAuth } from "../services/authContext";
 import Spinner from "../components/Spinner";
+import useAppNavigation from "../hooks/useAppNavigation";
 
 const RoscaDetailsScreen = ({ route }) => {
   const [selectedTab, setSelectedTab] = useState("accepted");
@@ -104,8 +103,7 @@ const RoscaDetailsScreen = ({ route }) => {
     }
   };
 
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation = useAppNavigation();
 
   return (
     <Screen>

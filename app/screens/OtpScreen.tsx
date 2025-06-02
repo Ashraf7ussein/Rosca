@@ -4,12 +4,16 @@ import AppText from "../components/AppText";
 import { View, StyleSheet, TextInput } from "react-native";
 import PinInput from "../components/PinInput";
 import { useForm } from "react-hook-form";
+import FooterButton from "../components/FooterButton";
+import useAppNavigation from "../hooks/useAppNavigation";
 
 const pins = ["pin1", "pin2", "pin3", "pin4"];
 
 const OtpScreen = () => {
   const { control, handleSubmit } = useForm();
   const inputRefs = Array.from({ length: 6 }, () => useRef<TextInput>(null));
+
+  const navigation = useAppNavigation();
   return (
     <Screen>
       <AppText style={styles.headerText}>We Sent You A 4 Digit Code</AppText>
@@ -25,6 +29,9 @@ const OtpScreen = () => {
         ))}
       </View>
       <AppText style={styles.resend}>Resend Code</AppText>
+      <FooterButton onPress={() => navigation.navigate("BillScreen")}>
+        Continue
+      </FooterButton>
     </Screen>
   );
 };

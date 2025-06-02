@@ -1,4 +1,3 @@
-import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
@@ -11,9 +10,8 @@ import Screen from "../components/Screen";
 import colors from "../config/colors";
 import apiClient from "../services/apiClient";
 import { signIn, signUp } from "../services/authService";
-import { RootStackParamList } from "../../types";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Spinner from "../components/Spinner";
+import useAppNavigation from "../hooks/useAppNavigation";
 
 interface FormInputs {
   name?: string;
@@ -23,8 +21,7 @@ interface FormInputs {
 }
 
 const LoginScreen = () => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation = useAppNavigation();
   const {
     control,
     handleSubmit,
