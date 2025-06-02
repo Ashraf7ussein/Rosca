@@ -26,6 +26,7 @@ const LoginScreen = () => {
     control,
     handleSubmit,
     getValues,
+    reset,
     formState: { errors },
   } = useForm<FormInputs>();
 
@@ -47,6 +48,7 @@ const LoginScreen = () => {
       }
       try {
         const user = await signUp(email, password, name);
+        reset();
         navigation.navigate("Enter");
       } catch (err: any) {
         setErrorMessage(err.message);
@@ -58,6 +60,7 @@ const LoginScreen = () => {
         const user = await signIn(email, password);
         const res = await apiClient.get(`/user/roscas/${user.user.uid}`);
         const userRoscas = res.data.roscas;
+        reset();
 
         if (userRoscas.length > 0) {
           navigation.navigate("Home", { userRoscas });

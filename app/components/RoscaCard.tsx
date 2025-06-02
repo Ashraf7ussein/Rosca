@@ -1,10 +1,10 @@
 import React from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { RiPencilFill } from "react-icons/ri";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Rosca, Member } from "../../types";
 import colors from "../config/colors";
-import CardBadge from "./CardBadge";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import Rosca from "../../types";
 import AppText from "./AppText";
+import CardBadge from "./CardBadge";
 
 interface Props {
   showEditButton?: boolean;
@@ -20,7 +20,7 @@ const RoscaCard = ({ rosca, onEdit, showEditButton = false }: Props) => {
           <Text style={styles.name}>{rosca.name}</Text>
           {showEditButton && (
             <TouchableOpacity onPress={onEdit}>
-              <MaterialCommunityIcons name="pencil" size={20} color="black" />
+              <RiPencilFill size={24} />
             </TouchableOpacity>
           )}
         </View>

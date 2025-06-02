@@ -15,7 +15,11 @@ const EnterScreen = () => {
         <AppText>You don’t have any Rosca’s Yet</AppText>
       </View>
       <View style={styles.buttonsContainer}>
-        <FooterButton onPress={() => navigation.navigate("FormScreen")}>
+        <FooterButton
+          onPress={() =>
+            navigation.navigate("FormScreen", { rosca: undefined })
+          }
+        >
           Create Rosca
         </FooterButton>
         <FooterButton

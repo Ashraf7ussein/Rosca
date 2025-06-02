@@ -1,11 +1,11 @@
-export default interface Payment {
+export interface Payment {
   toUserName: string;
   toUserId: string;
   month: string;
   paymentStatus: string;
 }
 
-export default interface Member {
+export interface Member {
   _id: string;
   name: string;
   isAdmin: boolean;
@@ -17,7 +17,7 @@ export default interface Member {
   payments: Payment[];
 }
 
-export default interface Rosca {
+export interface Rosca {
   _id: string;
   name: string;
   badgeLabel: string;
@@ -25,5 +25,6 @@ export default interface Rosca {
   startingDate: string;
   monthlyAmount: string;
   totalAmount: string;
-  membersArray: any[];
+  membersArray: Member[];
+  roscaStatus: string;
 }

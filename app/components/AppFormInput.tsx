@@ -1,7 +1,7 @@
-import Feather from "@expo/vector-icons/Feather";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import React, { useState } from "react";
 import { Control, Controller, FieldError } from "react-hook-form";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import {
   Modal,
   Platform,
@@ -36,6 +36,7 @@ const AppFormInput = ({
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [tempDate, setTempDate] = useState<Date>(new Date());
+  const [isFocused, setIsFocused] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -60,7 +61,7 @@ const AppFormInput = ({
                   <View
                     style={[
                       styles.input,
-                      error ? { borderColor: "red" } : null,
+                      error ? { borderColor: colors.danger } : null,
                     ]}
                   >
                     <AppText
@@ -131,7 +132,8 @@ const AppFormInput = ({
                 style={[
                   styles.input,
                   styles.passwordContainer,
-                  error && { borderColor: "red" },
+                  isFocused && { borderColor: colors.primary, borderWidth: 2 },
+                  error && { borderColor: colors.danger },
                 ]}
               >
                 <TextInput
@@ -141,15 +143,17 @@ const AppFormInput = ({
                   secureTextEntry={!passwordVisible}
                   autoCapitalize="none"
                   autoCorrect={false}
+                  onFocus={() => setIsFocused(true)}
+                  onBlur={() => setIsFocused(false)}
                   textContentType="password"
                   style={styles.passwordInput}
                 />
                 <Pressable onPress={() => setPasswordVisible(!passwordVisible)}>
-                  <Feather
-                    name={passwordVisible ? "eye" : "eye-off"}
-                    size={24}
-                    color={colors.medium}
-                  />
+                  {passwordVisible ? (
+                    <FaRegEye size={24} />
+                  ) : (
+                    <FaRegEyeSlash size={24} />
+                  )}
                 </Pressable>
               </View>
             );
@@ -159,8 +163,14 @@ const AppFormInput = ({
             <TextInput
               value={String(value)}
               onChangeText={onChange}
-              style={[styles.input, error ? { borderColor: "red" } : null]}
+              style={[
+                styles.input,
+                isFocused && { borderColor: colors.primary, borderWidth: 2 },
+                error && { borderColor: colors.danger },
+              ]}
               placeholder={placeholder}
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
               keyboardType={type === "number" ? "numeric" : "default"}
             />
           );
@@ -190,7 +200,7 @@ const styles = StyleSheet.create({
     outlineWidth: 0,
   },
   errorMessage: {
-    color: "red",
+    color: colors.danger,
     fontSize: 16,
     marginTop: 5,
   },
@@ -228,7 +238,7 @@ const styles = StyleSheet.create({
   },
   cancel: {
     fontSize: 16,
-    color: colors.danger || "red",
+    color: colors.danger,
   },
   buttonRow: {
     flexDirection: "row",

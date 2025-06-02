@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   KeyboardAvoidingView,
@@ -14,6 +14,7 @@ import Screen from "../components/Screen";
 import apiClient from "../services/apiClient";
 import { useAuth } from "../services/authContext";
 import useAppNavigation from "../hooks/useAppNavigation";
+import Spinner from "../components/Spinner";
 
 interface FormInputs {
   name: string;
@@ -46,11 +47,14 @@ const FormScreen: React.FC<FormScreenProps> = ({ route }) => {
     reset,
     formState: { errors },
   } = useForm<FormInputs>();
+  const [isLoading, setLoading] = useState(false);
 
   const navigation = useAppNavigation();
   const rosca = route.params?.rosca;
 
   const onSubmit = (data: FormInputs) => {
+    setLoading(true);
+
     // if comming to edit already created rosca
     if (rosca) {
       apiClient
@@ -69,8 +73,13 @@ const FormScreen: React.FC<FormScreenProps> = ({ route }) => {
     const newData = { ...data, userData };
     apiClient
       .post("/create", newData)
-      .then(() => console.log("Success"))
-      .catch((err) => console.log(err));
+      .then((res) => {
+        navigation.navigate("RoscaDetailsScreen", { rosca: res.data });
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err), setLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -85,8 +94,11 @@ const FormScreen: React.FC<FormScreenProps> = ({ route }) => {
     }
   }, [rosca, reset]);
 
+  const navigatoin = useAppNavigation();
+
   return (
     <Screen>
+      <Spinner visible={isLoading} />
       <AppText style={styles.headerText}>
         {rosca ? `Edit ${rosca.name} Rosca` : "Create new rosca"}
       </AppText>
