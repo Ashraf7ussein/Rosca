@@ -1,7 +1,8 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
 import React, { useState } from "react";
 import { Control, Controller, FieldError } from "react-hook-form";
-import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+
 import {
   Modal,
   Platform,
@@ -149,11 +150,11 @@ const AppFormInput = ({
                   style={styles.passwordInput}
                 />
                 <Pressable onPress={() => setPasswordVisible(!passwordVisible)}>
-                  {passwordVisible ? (
-                    <FaRegEye size={24} />
-                  ) : (
-                    <FaRegEyeSlash size={24} />
-                  )}
+                  <MaterialCommunityIcons
+                    name={passwordVisible ? "eye-off-outline" : "eye-outline"}
+                    size={24}
+                    color="black"
+                  />
                 </Pressable>
               </View>
             );

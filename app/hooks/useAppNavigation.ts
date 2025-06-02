@@ -6,14 +6,14 @@ export type RootStackParamList = {
   Enter: undefined;
   FormScreen: { rosca?: any };
   Join: undefined;
-  InviteScreen: undefined;
+  InviteScreen: { invitationCode: string };
   ReasonsScreen: undefined;
   OtpScreen: undefined;
   BillScreen: undefined;
   PaymentConfirmationScreen: undefined;
   Home: { userRoscas: any[] };
   RoscaDetailsScreen: { rosca: any };
-  PaymentsScreen: { rosca: any };
+  PaymentsScreen: { roscaId: string; payments: any[] };
   MembersScreen: { Members: any[] };
 };
 

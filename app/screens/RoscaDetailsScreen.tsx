@@ -12,14 +12,21 @@ import TabContainer from "../components/TabContainer";
 import UsersBadge from "../components/UsersBadge";
 import colors from "../config/colors";
 import PriceTag from "../components/PriceTag";
-import Payment from "../../types";
-import Member from "../../types";
+import { Payment, Member } from "../../types";
 import apiClient from "../services/apiClient";
 import { useAuth } from "../services/authContext";
 import Spinner from "../components/Spinner";
-import useAppNavigation from "../hooks/useAppNavigation";
+import { RouteProp } from "@react-navigation/native";
 
-const RoscaDetailsScreen = ({ route }) => {
+import useAppNavigation, {
+  RootStackParamList,
+} from "../hooks/useAppNavigation";
+
+interface Props {
+  route: RouteProp<RootStackParamList, "RoscaDetailsScreen">;
+}
+
+const RoscaDetailsScreen = ({ route }: Props) => {
   const [selectedTab, setSelectedTab] = useState("accepted");
   const [modalVisible, setModalVisibility] = useState(false);
   const [isLoading, setLoading] = useState(false);
@@ -32,14 +39,17 @@ const RoscaDetailsScreen = ({ route }) => {
   const handleButtonClick = async () => {
     if (rosca.roscaStatus === "pending") {
       const roscaId = rosca._id;
+      setLoading(true);
       try {
         const res = await apiClient.put(`/status/${roscaId}`, {
           status: "active",
         });
 
         setRosca(res.data.rosca);
+        setLoading(false);
       } catch (err) {
         console.log(err);
+        setLoading(false);
       }
     } else {
       if (!user) {
@@ -74,7 +84,7 @@ const RoscaDetailsScreen = ({ route }) => {
     }
   };
 
-  const handleDelete = async (memberId) => {
+  const handleDelete = async (memberId: string) => {
     setLoading(true);
     try {
       const res = await apiClient.delete(`/members/${rosca._id}/${memberId}`);
@@ -129,7 +139,7 @@ const RoscaDetailsScreen = ({ route }) => {
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate("MembersScreen", {
-                  members: rosca.membersArray,
+                  Members: rosca.membersArray,
                 });
               }}
             >
@@ -163,11 +173,11 @@ const RoscaDetailsScreen = ({ route }) => {
           <AppModal
             onClose={() => {
               setModalVisibility(false);
-              setCloseVisible(false); // reset close view
+              setCloseVisible(false);
             }}
           >
             {closeVisible ? (
-              <>
+              <View style={{ gap: 10 }}>
                 <AppText
                   style={styles.closeText}
                 >{`Are you sure you want to close ${rosca.name}? This action can not be undone`}</AppText>
@@ -178,14 +188,25 @@ const RoscaDetailsScreen = ({ route }) => {
                 >
                   Close Rosca
                 </FooterButton>
-              </>
+                <FooterButton
+                  backgroundColor={colors.secondary}
+                  onPress={() => {
+                    setCloseVisible(false);
+                    setModalVisibility(false);
+                  }}
+                >
+                  Cancel
+                </FooterButton>
+              </View>
             ) : (
               <>
                 <OptionItem
                   text="Invite Member"
                   iconName="account-arrow-right"
                   onPress={() => {
-                    navigation.navigate("InviteScreen");
+                    navigation.navigate("InviteScreen", {
+                      invitationCode: rosca.invitationCode,
+                    });
                     setModalVisibility(false);
                   }}
                 />

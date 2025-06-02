@@ -33,6 +33,7 @@ interface FormScreenProps {
         monthlyAmount?: number;
         startingDate?: string;
         endingDate?: string;
+        _id: string;
       };
     };
   };
@@ -55,31 +56,43 @@ const FormScreen: React.FC<FormScreenProps> = ({ route }) => {
   const onSubmit = (data: FormInputs) => {
     setLoading(true);
 
-    // if comming to edit already created rosca
     if (rosca) {
+      // Update existing Rosca
       apiClient
         .put(`/update/${rosca._id}`, data)
-        .then(() => console.log("Success"))
-        .catch((err) => console.log(err));
-    }
-
-    // if comming to create new rosca
-    if (!user) return;
-    const userData = {
-      displayName: user.displayName,
-      uid: user.uid,
-    };
-
-    const newData = { ...data, userData };
-    apiClient
-      .post("/create", newData)
-      .then((res) => {
-        navigation.navigate("RoscaDetailsScreen", { rosca: res.data });
+        .then((res) => {
+          console.log("Update success");
+          navigation.navigate("RoscaDetailsScreen", { rosca: res.data.rosca });
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          setLoading(false);
+        });
+    } else {
+      // Create new Rosca
+      if (!user) {
         setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err), setLoading(false);
-      });
+        return;
+      }
+      const userData = {
+        displayName: user.displayName,
+        uid: user.uid,
+      };
+
+      const newData = { ...data, userData };
+
+      apiClient
+        .post("/create", newData)
+        .then((res) => {
+          navigation.navigate("RoscaDetailsScreen", { rosca: res.data });
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          setLoading(false);
+        });
+    }
   };
 
   useEffect(() => {
@@ -94,13 +107,11 @@ const FormScreen: React.FC<FormScreenProps> = ({ route }) => {
     }
   }, [rosca, reset]);
 
-  const navigatoin = useAppNavigation();
-
   return (
     <Screen>
       <Spinner visible={isLoading} />
       <AppText style={styles.headerText}>
-        {rosca ? `Edit ${rosca.name} Rosca` : "Create new rosca"}
+        {rosca ? `Edit ${rosca.name} Rosca` : "Create new Rosca"}
       </AppText>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : undefined}
