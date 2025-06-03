@@ -17,6 +17,7 @@ import apiClient from "../services/apiClient";
 import { useAuth } from "../services/authContext";
 import Spinner from "../components/Spinner";
 import { RouteProp } from "@react-navigation/native";
+import Toast from "react-native-toast-message";
 
 import useAppNavigation, {
   RootStackParamList,
@@ -47,9 +48,17 @@ const RoscaDetailsScreen = ({ route }: Props) => {
 
         setRosca(res.data.rosca);
         setLoading(false);
-      } catch (err) {
-        console.log(err);
+        Toast.show({
+          type: "success",
+          text1: "Rosca Activated Successfully",
+        });
+      } catch (err: any) {
         setLoading(false);
+        Toast.show({
+          type: "error",
+          text1: "Error  while activating rosca",
+          text2: err.message || "Please try again",
+        });
       }
     } else {
       if (!user) {

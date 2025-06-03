@@ -13,6 +13,7 @@ import apiClient from "../services/apiClient";
 import { signIn, signUp } from "../services/authService";
 import Spinner from "../components/Spinner";
 import useAppNavigation from "../hooks/useAppNavigation";
+import Toast from "react-native-toast-message";
 
 interface FormInputs {
   name?: string;
@@ -32,19 +33,20 @@ const LoginScreen = () => {
   } = useForm<FormInputs>();
 
   const [isSignup, setSignup] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isLoading, setLoading] = useState(false);
 
   const onSubmit = async (data: FormInputs) => {
-    setErrorMessage(null);
     setLoading(true);
 
     const { email, password, confirmPassword, name } = data;
 
     if (isSignup) {
       if (password !== confirmPassword) {
-        setErrorMessage("Passwords do not match");
         setLoading(false);
+        Toast.show({
+          type: "error",
+          text1: "Passwords do not match",
+        });
         return;
       }
       try {
@@ -52,7 +54,11 @@ const LoginScreen = () => {
         reset();
         navigation.navigate("Enter");
       } catch (err: any) {
-        setErrorMessage(err.message);
+        Toast.show({
+          type: "error",
+          text1: "Signup Failed",
+          text2: err.message || "Please try again",
+        });
       } finally {
         setLoading(false);
       }
@@ -76,7 +82,11 @@ const LoginScreen = () => {
           navigation.navigate("Enter");
         }
       } catch (err: any) {
-        setErrorMessage(err.message);
+        Toast.show({
+          type: "error",
+          text1: "Login Failed",
+          text2: err.message || "Please try again",
+        });
       } finally {
         setLoading(false);
       }
@@ -86,6 +96,7 @@ const LoginScreen = () => {
   return (
     <Screen>
       <Spinner visible={isLoading} />
+
       <ScrollView>
         <AppText style={styles.welcomeText}>
           {isSignup
@@ -150,10 +161,6 @@ const LoginScreen = () => {
                   value === getValues("password") || "Passwords do not match",
               }}
             />
-          )}
-
-          {errorMessage && (
-            <AppText style={styles.errorText}>{errorMessage}</AppText>
           )}
 
           <TouchableOpacity onPress={() => setSignup(!isSignup)}>

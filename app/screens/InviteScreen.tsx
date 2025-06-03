@@ -58,20 +58,14 @@ const InviteScreen = ({ route }) => {
         {copied && <AppText style={styles.copiedText}>Copied!</AppText>}
       </View>
 
-      <View style={styles.bottonsContainer}>
-        <FooterButton onPress={() => {}}>Done</FooterButton>
-        <FooterButton onPress={shareCode} backgroundColor={colors.secondary}>
-          Share
-        </FooterButton>
-      </View>
+      <FooterButton onPress={shareCode} backgroundColor={colors.primary}>
+        Share
+      </FooterButton>
     </Screen>
   );
 };
 
 const styles = StyleSheet.create({
-  bottonsContainer: {
-    gap: 10,
-  },
   content: {
     flex: 1,
   },

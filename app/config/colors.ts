@@ -11,9 +11,10 @@ const colors = {
   activeLight: "#B3F7DE40",
   pending: "#F8D84A",
   closed: "#D8D8D8",
-  dangerLight: "#FFE8E0B5",
+  dangerLight: "#FA6B5980",
   danger: "#FA6B59",
   primaryLigh: "#DDE6F7",
+  success: "#B3F7DE80",
 };
 
 export default colors;

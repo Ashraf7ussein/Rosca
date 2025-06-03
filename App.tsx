@@ -15,15 +15,24 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "./app/screens/LoginScreen";
 import AuthProvider from "./app/services/authContext";
-import { RootStackParamList } from "./types";
+import { RootStackParamList } from "./app/hooks/useAppNavigation";
+import Toast from "react-native-toast-message";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const StackNavigator = () => (
   <Stack.Navigator initialRouteName="Login">
-    <Stack.Screen name="Login" component={LoginScreen} />
+    <Stack.Screen
+      name="Login"
+      component={LoginScreen}
+      options={{ headerShown: false }}
+    />
     <Stack.Screen name="Enter" component={EnterScreen} />
-    <Stack.Screen name="FormScreen" component={FormScreen} />
+    <Stack.Screen
+      name="FormScreen"
+      component={FormScreen}
+      options={{ title: "Create New Rosca" }}
+    />
     <Stack.Screen name="Join" component={ScanQrScreen} />
     <Stack.Screen name="Home" component={HomeScreen} />
     <Stack.Screen name="RoscaDetailsScreen" component={RoscaDetailsScreen} />
@@ -45,6 +54,7 @@ export default function App() {
     <AuthProvider>
       <NavigationContainer>
         <StackNavigator />
+        <Toast />
       </NavigationContainer>
     </AuthProvider>
   );
