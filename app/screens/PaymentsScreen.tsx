@@ -19,7 +19,7 @@ const PaymentsScreen = ({ route }) => {
 
   return (
     <Screen>
-      <AppText style={styles.headerText}>Your Payments</AppText>
+      <AppText style={styles.headerText}>My Payments</AppText>
       <TabContainer
         onPress={(tab) => setSelectedTab(tab)}
         selectedTab={selectedTab}

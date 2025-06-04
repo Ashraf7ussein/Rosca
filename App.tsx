@@ -35,8 +35,16 @@ const StackNavigator = () => (
     />
     <Stack.Screen name="Join" component={ScanQrScreen} />
     <Stack.Screen name="Home" component={HomeScreen} />
-    <Stack.Screen name="RoscaDetailsScreen" component={RoscaDetailsScreen} />
-    <Stack.Screen name="PaymentsScreen" component={PaymentsScreen} />
+    <Stack.Screen
+      name="RoscaDetailsScreen"
+      component={RoscaDetailsScreen}
+      options={{ title: "Rosca Details" }}
+    />
+    <Stack.Screen
+      name="PaymentsScreen"
+      component={PaymentsScreen}
+      options={{ title: "My Payments" }}
+    />
     <Stack.Screen name="MembersScreen" component={MembersScreen} />
     <Stack.Screen name="InviteScreen" component={InviteScreen} />
     <Stack.Screen name="OtpScreen" component={OtpScreen} />

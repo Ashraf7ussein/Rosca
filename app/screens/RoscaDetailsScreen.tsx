@@ -12,7 +12,7 @@ import TabContainer from "../components/TabContainer";
 import UsersBadge from "../components/UsersBadge";
 import colors from "../config/colors";
 import PriceTag from "../components/PriceTag";
-import { Payment, Member } from "../../types";
+import { Payment, Member, Rosca } from "../../types";
 import apiClient from "../services/apiClient";
 import { useAuth } from "../services/authContext";
 import Spinner from "../components/Spinner";
@@ -96,11 +96,18 @@ const RoscaDetailsScreen = ({ route }: Props) => {
   const handleDelete = async (memberId: string) => {
     setLoading(true);
     try {
-      const res = await apiClient.delete(`/members/${rosca._id}/${memberId}`);
+      await apiClient.delete(`/members/${rosca._id}/${memberId}`);
+      setRosca((prevRosca: Rosca) => ({
+        ...prevRosca,
+        membersArray: prevRosca.membersArray.filter((m) => m._id !== memberId),
+      }));
+    } catch (error: any) {
       setLoading(false);
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
+      Toast.show({
+        type: "error",
+        text1: "Error  while deleting member",
+        text2: error.message || "Please try again later",
+      });
     } finally {
       setLoading(false);
     }
@@ -113,10 +120,20 @@ const RoscaDetailsScreen = ({ route }: Props) => {
         `/members/${rosca._id}/${member._id}/status`,
         { status }
       );
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
+      const updatedMember = res.data.member;
+
+      setRosca((prevRosca: Rosca) => ({
+        ...prevRosca,
+        membersArray: prevRosca.membersArray.map((m) =>
+          m._id === member._id ? { ...m, ...updatedMember } : m
+        ),
+      }));
+    } catch (error: any) {
+      Toast.show({
+        type: "error",
+        text1: "Error  while updating member status",
+        text2: error.message || "Please try again",
+      });
     } finally {
       setLoading(false);
     }
