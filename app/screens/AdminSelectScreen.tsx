@@ -5,9 +5,13 @@ import AppText from "../components/AppText";
 import colors from "../config/colors";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import FooterButton from "../components/FooterButton";
+import apiClient from "../services/apiClient";
+import Toast from "react-native-toast-message";
 
 const AdminSelectScreen = ({ route }) => {
-  const members = route.params.members;
+  const [isLoading, setLoading] = useState(false);
+
+  const { _id, membersArray: members } = route.params.rosca;
 
   const admin = members.find((m) => m.isAdmin);
 
@@ -15,7 +19,27 @@ const AdminSelectScreen = ({ route }) => {
     admin ? admin._id : null
   );
 
-  const handleSelectAdmin = (id) => {
+  const handleChangeAdmin = async (memberId: string) => {
+    setLoading(true);
+    try {
+      await apiClient.put(`/change-admin/${_id}`, { newAdminId: memberId });
+
+      Toast.show({
+        type: "success",
+        text1: "Admin updated successfully",
+      });
+    } catch (error: any) {
+      Toast.show({
+        type: "error",
+        text1: "Error while updating admin",
+        text2: error.message || "Please try again later",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSelectAdmin = (id: string) => {
     setSelectedAdminId(id);
   };
 
@@ -56,11 +80,10 @@ const AdminSelectScreen = ({ route }) => {
         renderItem={renderItem}
       />
       <FooterButton
-        onPress={() => {
-          console.log("Selected admin ID:", selectedAdminId);
-        }}
+        onPress={() => handleChangeAdmin(selectedAdminId)}
+        disabled={isLoading}
       >
-        Confirm
+        {isLoading ? "Updating..." : "Confirm"}
       </FooterButton>
     </Screen>
   );

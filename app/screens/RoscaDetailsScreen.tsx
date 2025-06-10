@@ -243,7 +243,7 @@ const RoscaDetailsScreen = ({ route }: Props) => {
                   iconName="arrow-u-right-top-bold"
                   onPress={() => {
                     navigation.navigate("AdminSelectScreen", {
-                      members: rosca.membersArray,
+                      rosca: rosca,
                     });
                     setModalVisibility(false);
                   }}
