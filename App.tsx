@@ -17,6 +17,7 @@ import LoginScreen from "./app/screens/LoginScreen";
 import AuthProvider from "./app/services/authContext";
 import { RootStackParamList } from "./app/hooks/useAppNavigation";
 import Toast from "react-native-toast-message";
+import AdminSelectScreen from "./app/screens/AdminSelectScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -47,6 +48,11 @@ const StackNavigator = () => (
     />
     <Stack.Screen name="MembersScreen" component={MembersScreen} />
     <Stack.Screen name="InviteScreen" component={InviteScreen} />
+    <Stack.Screen
+      name="AdminSelectScreen"
+      component={AdminSelectScreen}
+      options={{ title: "Select New Admin" }}
+    />
     <Stack.Screen
       name="OtpScreen"
       component={OtpScreen}

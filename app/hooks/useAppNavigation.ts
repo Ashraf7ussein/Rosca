@@ -13,6 +13,7 @@ export type RootStackParamList = {
   PaymentConfirmationScreen: any;
   Home: { userRoscas: any[] };
   RoscaDetailsScreen: { rosca: any };
+  AdminSelectScreen: { members: any[] };
   PaymentsScreen: {
     roscaId: string;
     roscaName: string;
