@@ -4,11 +4,11 @@ import Screen from "../components/Screen";
 import AppText from "../components/AppText";
 import TabContainer from "../components/TabContainer";
 import PaymentCard from "../components/PaymentCard";
-import Payment from "../../types";
+import { Payment } from "../../types";
 
 const PaymentsScreen = ({ route }) => {
   const [selectedTab, setSelectedTab] = useState("all");
-  const { payments } = route.params;
+  const { payments, roscaName, roscaId, monthlyAmount } = route.params;
 
   const filteredCards =
     selectedTab === "all"
@@ -34,9 +34,11 @@ const PaymentsScreen = ({ route }) => {
         {filteredCards &&
           filteredCards.map((payment: Payment, index: number) => (
             <PaymentCard
+              roscaName={roscaName}
               key={index}
               name={payment.toUserName}
               label={payment.paymentStatus}
+              monthlyAmount={monthlyAmount}
               toUserId={payment.toUserId}
               month={new Date(payment.month).toLocaleDateString("en-US", {
                 month: "long",

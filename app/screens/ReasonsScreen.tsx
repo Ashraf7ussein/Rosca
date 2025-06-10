@@ -19,6 +19,27 @@ const ReasonsScreen = () => {
               <AppText style={styles.subTitle}>Transfer for loved ones</AppText>
             </View>
           </View>
+          <View style={styles.container}>
+            <CircularIcon name="map" size={40} />
+            <View>
+              <AppText style={styles.title}>Friend Or Family</AppText>
+              <AppText style={styles.subTitle}>Transfer for loved ones</AppText>
+            </View>
+          </View>
+          <View style={styles.container}>
+            <CircularIcon name="map" size={40} />
+            <View>
+              <AppText style={styles.title}>Friend Or Family</AppText>
+              <AppText style={styles.subTitle}>Transfer for loved ones</AppText>
+            </View>
+          </View>
+          <View style={styles.container}>
+            <CircularIcon name="map" size={40} />
+            <View>
+              <AppText style={styles.title}>Friend Or Family</AppText>
+              <AppText style={styles.subTitle}>Transfer for loved ones</AppText>
+            </View>
+          </View>
         </TouchableOpacity>
       </View>
     </Screen>

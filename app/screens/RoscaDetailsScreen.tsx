@@ -75,7 +75,9 @@ const RoscaDetailsScreen = ({ route }: Props) => {
 
       navigation.navigate("PaymentsScreen", {
         roscaId: rosca._id,
+        roscaName: rosca.name,
         payments: currentMember.payments,
+        monthlyAmount: rosca.monthlyAmount,
       });
     }
   };

@@ -10,9 +10,18 @@ interface Props {
   name: string;
   month: string;
   toUserId: string;
+  roscaName: string;
+  monthlyAmount: string;
 }
 
-const PaymentCard = ({ label, name, month, toUserId }: Props) => {
+const PaymentCard = ({
+  label,
+  name,
+  month,
+  toUserId,
+  roscaName,
+  monthlyAmount,
+}: Props) => {
   const getIconName = () => {
     switch (label) {
       case "paid":
@@ -71,6 +80,8 @@ const PaymentCard = ({ label, name, month, toUserId }: Props) => {
               month,
               name,
               toUserId,
+              roscaName,
+              monthlyAmount,
             });
           }}
         >

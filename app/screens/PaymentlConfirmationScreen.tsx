@@ -9,7 +9,10 @@ import FooterButton from "../components/FooterButton";
 import useAppNavigation from "../hooks/useAppNavigation";
 
 const PaymentConfirmationScreen = ({ route }) => {
-  const { toUserId, name, month } = route.params;
+  const { toUserId, name, month, roscaName, monthlyAmount } = route.params;
+  console.log("====================================");
+  console.log(route.params);
+  console.log("====================================");
   const navigation = useAppNavigation();
   return (
     <Screen>
@@ -24,13 +27,13 @@ const PaymentConfirmationScreen = ({ route }) => {
         <View style={styles.container}>
           <View style={styles.leftContainer}>
             <CircularIcon name="wallet" color={colors.black} size={35} />
-            <AppText>Family</AppText>
+            <AppText>{roscaName}</AppText>
           </View>
           <FontAwesome name="save" size={20} color={colors.medium} />
         </View>
         <View style={styles.verticalContainer}>
           <AppText style={styles.title}>Monthly Amount</AppText>
-          <AppText style={styles.subTitle}>50 jod</AppText>
+          <AppText style={styles.subTitle}>{monthlyAmount} jod</AppText>
         </View>
         <View style={styles.verticalContainer}>
           <AppText style={styles.title}>Commission</AppText>

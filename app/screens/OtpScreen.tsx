@@ -6,6 +6,7 @@ import PinInput from "../components/PinInput";
 import { useForm } from "react-hook-form";
 import FooterButton from "../components/FooterButton";
 import useAppNavigation from "../hooks/useAppNavigation";
+import colors from "../config/colors";
 
 const pins = ["pin1", "pin2", "pin3", "pin4"];
 
@@ -16,30 +17,31 @@ const OtpScreen = () => {
   const navigation = useAppNavigation();
   return (
     <Screen>
-      <AppText style={styles.headerText}>We Sent You A 4 Digit Code</AppText>
-      <View style={styles.inputsContainer}>
-        {pins.map((name, index) => (
-          <PinInput
-            key={name}
-            name={name}
-            control={control}
-            index={index}
-            inputRefs={inputRefs}
-          />
-        ))}
+      <AppText>We Sent You A 4 Digit Code</AppText>
+      <View style={styles.content}>
+        <View style={styles.inputsContainer}>
+          {pins.map((name, index) => (
+            <PinInput
+              key={name}
+              name={name}
+              control={control}
+              index={index}
+              inputRefs={inputRefs}
+            />
+          ))}
+        </View>
+        <AppText style={styles.resend}>Resend Code</AppText>
       </View>
-      <AppText style={styles.resend}>Resend Code</AppText>
-      <FooterButton onPress={() => navigation.navigate("BillScreen")}>
-        Continue
-      </FooterButton>
+      <View style={styles.buttonsContainer}>
+        <FooterButton onPress={() => navigation.navigate("BillScreen")}>
+          Continue
+        </FooterButton>
+      </View>
     </Screen>
   );
 };
 
 const styles = StyleSheet.create({
-  headerText: {
-    marginBottom: 20,
-  },
   inputsContainer: {
     flexDirection: "row",
     gap: 8,
@@ -52,6 +54,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textDecorationLine: "underline",
     alignSelf: "center",
+  },
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  content: {
+    flex: 1,
+  },
+  buttonsContainer: {
+    gap: 10,
   },
 });
 

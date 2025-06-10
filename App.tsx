@@ -47,12 +47,25 @@ const StackNavigator = () => (
     />
     <Stack.Screen name="MembersScreen" component={MembersScreen} />
     <Stack.Screen name="InviteScreen" component={InviteScreen} />
-    <Stack.Screen name="OtpScreen" component={OtpScreen} />
-    <Stack.Screen name="BillScreen" component={BillScreen} />
-    <Stack.Screen name="ReasonsScreen" component={ReasonsScreen} />
+    <Stack.Screen
+      name="OtpScreen"
+      component={OtpScreen}
+      options={{ title: "" }}
+    />
+    <Stack.Screen
+      name="BillScreen"
+      component={BillScreen}
+      options={{ title: "Bill Payed" }}
+    />
+    <Stack.Screen
+      name="ReasonsScreen"
+      component={ReasonsScreen}
+      options={{ title: "" }}
+    />
     <Stack.Screen
       name="PaymentConfirmationScreen"
       component={PaymentConfirmationScreen}
+      options={{ title: "Confirm Payment" }}
     />
   </Stack.Navigator>
 );

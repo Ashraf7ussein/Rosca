@@ -10,10 +10,15 @@ export type RootStackParamList = {
   ReasonsScreen: undefined;
   OtpScreen: undefined;
   BillScreen: undefined;
-  PaymentConfirmationScreen: undefined;
+  PaymentConfirmationScreen: any;
   Home: { userRoscas: any[] };
   RoscaDetailsScreen: { rosca: any };
-  PaymentsScreen: { roscaId: string; payments: any[] };
+  PaymentsScreen: {
+    roscaId: string;
+    roscaName: string;
+    payments: any[];
+    monthlyAmount: string;
+  };
   MembersScreen: { Members: any[] };
 };
 

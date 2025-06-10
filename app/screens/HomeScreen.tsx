@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, TouchableOpacity, FlatList } from "react-native";
+import { StyleSheet, TouchableOpacity, FlatList, View } from "react-native";
 import { Rosca } from "../../types";
 import AppText from "../components/AppText";
 import RoscaCard from "../components/RoscaCard";
@@ -7,6 +7,7 @@ import Screen from "../components/Screen";
 import useAppNavigation from "../hooks/useAppNavigation";
 import apiClient from "../services/apiClient";
 import { useAuth } from "../services/authContext";
+import CircularIcon from "../components/CircularIcon";
 
 const HomeScreen = ({ route }) => {
   const { user } = useAuth();
@@ -50,7 +51,12 @@ const HomeScreen = ({ route }) => {
         keyExtractor={(item) => item._id}
         renderItem={renderItem}
         ListHeaderComponent={
-          <AppText style={styles.headerText}>Roscas</AppText>
+          <View style={styles.container}>
+            <AppText style={styles.headerText}>Roscas</AppText>
+            <TouchableOpacity onPress={() => navigation.navigate("FormScreen")}>
+              <CircularIcon name="plus" size={25} />
+            </TouchableOpacity>
+          </View>
         }
         refreshing={refreshing}
         onRefresh={onRefresh}
@@ -62,8 +68,13 @@ const HomeScreen = ({ route }) => {
 
 const styles = StyleSheet.create({
   headerText: {
-    marginBottom: 20,
     fontSize: 22,
+  },
+  container: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 20,
   },
 });
 
